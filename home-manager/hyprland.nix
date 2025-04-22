@@ -1,9 +1,10 @@
 { config, pkgs, lib, ... }: {
     wayland.windowManager.hyprland = {
         enable = true;
-
-        settings = {
-            import ./hyprland/monitors.nix
-        }
     };
+
+    imports = [
+        ./hyprland/monitors.nix
+        ./hyprland/binds.nix
+    ];
 }

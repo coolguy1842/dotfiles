@@ -10,11 +10,11 @@
     
     home-manager.backupFileExtension = "backup";
     nix = {
-        package = pkgs.nixVersions.unstable;
+        package = pkgs.nixVersions.stable;
         extraOptions = "experimental-features = nix-command flakes";
     };
 
-    hadware.enableRedistributableFirmware = true;
+    hardware.enableRedistributableFirmware = true;
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
@@ -87,9 +87,13 @@
         python3
         openssl
         pciutils
+        kitty
+        vscode
+        wofi
     ];
 
-    nix.settings.auto-optimize-store = true;
+    nix.optimise.automatic = true;
+
     nix.gc.automatic = true;
     nix.gc.dates = "daily";
     nix.gc.options = "--delete-older-than 7d";
@@ -115,7 +119,7 @@
     ];
 
     networking.useDHCP = lib.mkDefault true;
-    
+
     services.udev.extraRules = ''
         SUBSYSTEM=="hidraw", KERNEL=="hidraw*", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="0006", MODE="0660", GROUP="plugdev"
     '';
