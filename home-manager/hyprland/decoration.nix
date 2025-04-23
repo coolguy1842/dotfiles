@@ -1,6 +1,4 @@
 { ... }: {
-    home.file.".config/shaders/vibrance.glsl".source = ./shaders/vibrance.glsl;
-
     wayland.windowManager.hyprland.settings.decoration = {
         rounding = 8;
 
@@ -21,7 +19,5 @@
             
             color = "rgba(1a1a1aee)";
         };
-
-        screen_shader = "~/.config/shaders/vibrance.glsl";
     };
 }

@@ -43,16 +43,9 @@
             packages = with pkgs; [
                 grim
                 slurp
-                wl-clipboard
-                clipman
-                hyprpicker
-                hyprshade
                 libnotify
                 polkit
                 polkit_gnome
-                gtk4
-                gtk3
-                qt6.full
                 hyprland-protocols
                 xdg-desktop-portal-gtk
                 xdg-desktop-portal-hyprland

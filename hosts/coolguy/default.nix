@@ -63,6 +63,32 @@
         pulse.enable = true;
         jack.enable = true;
     };
+    
+    services.gvfs.enable = true;
+
+    services.flatpak.enable = true;
+    services.flatpak.remotes = [
+        { name = "flathub"; location = "https://flathub.org/repo/flathub.flatpakrepo"; }
+    ];
+
+    services.flatpak.packages = [
+        "com.github.tchx84.Flatseal"
+        "org.vinegarhq.Sober"
+    ];
+
+    services.displayManager.sddm = {
+            enable = true;
+            wayland = {
+                enable = true;
+           };
+        };
+
+    services.flatpak.update.auto = {
+        enable = true;
+        onCalendar = "weekly"; # Default value
+    };
+    
+    services.flatpak.uninstallUnmanaged = true;
 
     users.groups.plugdev = {};
     users.users.coolguy = {
@@ -83,6 +109,7 @@
         powerline-symbols
     ];
 
+    # TODO: add modules for these
     environment.systemPackages = with pkgs; [
         clang-tools
         git
@@ -110,6 +137,7 @@
         electron-mail
         element-desktop
         signal-desktop
+        prismlauncher
         librewolf
         baobab
         r2modman
@@ -125,7 +153,7 @@
 
     nix.gc.automatic = true;
     nix.gc.dates = "daily";
-    nix.gc.options = "--delete-older-than 7d";
+    nix.gc.options = "--delete-older-than 2d";
 
     services.udev.extraRules = ''
         SUBSYSTEM=="hidraw", KERNEL=="hidraw*", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="0006", MODE="0660", GROUP="plugdev"

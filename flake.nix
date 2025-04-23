@@ -22,9 +22,13 @@
             url = "github:coolguy1842/agsv1/v1";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
+        nix-flatpak = {
+            url = "github:gmodena/nix-flatpak";
+        };
     };
 
-    outputs = { nixpkgs, home-manager, ... } @ inputs: {
+    outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: {
         nixosConfigurations = {
             coolguy = nixpkgs.lib.nixosSystem {
                 modules = [
@@ -39,6 +43,7 @@
                             }
                         ];
                     }
+                    nix-flatpak.nixosModules.nix-flatpak
                     ./hosts/coolguy
                     ./modules
                     { nixpkgs.hostPlatform = "x86_64-linux"; }

@@ -9,6 +9,8 @@
         workspaces = lib.mkOption { type = lib.types.int; };
     };
 
+    options.activeShader = lib.mkOption { type = lib.types.str; default = "vibrance"; };
+
     imports = [
         ./monitors.nix
         ./workspaces.nix
@@ -20,6 +22,7 @@
         ./animations.nix
         ./dwindle.nix
         ./render.nix
+        ./shaders.nix
         ./binds.nix
     ];
 
@@ -31,5 +34,12 @@
 
         secondMonitor.name = "HDMI-A-1";
         secondMonitor.workspaces = 1;
+
+        home.packages = with pkgs; [
+            wl-clipboard
+            clipman
+            hyprpicker
+            hyprshade
+        ];
     };
 }
