@@ -17,8 +17,8 @@
         };
 
         environment.systemPackages = with pkgs; [
+            (writeShellScriptBin "cycle-wallpaper" (builtins.readFile ../../scripts/cycle-wallpaper.sh))
             (writeShellScriptBin "load-portals" ''
-                sleep 1
                 killall xdg-desktop-portal-hyprland
                 killall xdg-desktop-portal-gtk
                 killall xdg-desktop-portal
@@ -28,10 +28,10 @@
                 killall .xdg-desktop-portal-wrapped
 
                 logger 'killed all xdg-desktop-portals'
-                sleep 1
+                sleep 2
                 ${pkgs.xdg-desktop-portal-gtk}/libexec/xdg-desktop-portal-gtk &
                 logger 'xdg-desktop-portal-gtk started'
-                sleep 1
+                sleep 2
                 ${pkgs.xdg-desktop-portal-hyprland}/libexec/xdg-desktop-portal-hyprland &
                 logger 'xdg-desktop-portal-hyprland started'
                 sleep 2
@@ -117,7 +117,8 @@
             QT_QPA_PLATFORM = "wayland;xcb";
             
            __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json";
-            VK_LOADER_DRIVERS_DISABLE = "nvidia_icd.json";
+            VK_ICD_FILENAMES          = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json";
+            VK_LOADER_DRIVERS_DISABLE = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/nouveau_icd.x86_64.json";
         };
 
         hardware.graphics.enable = true;

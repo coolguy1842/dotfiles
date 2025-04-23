@@ -104,11 +104,13 @@
         htop
         lshw
         youtube-music
+        proton-pass
         ente-auth
         plex-desktop
         electron-mail
         element-desktop
         signal-desktop
+        librewolf
         baobab
         r2modman
         psmisc

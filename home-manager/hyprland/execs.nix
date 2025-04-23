@@ -12,4 +12,8 @@
         "electron-mail &"
         "element-desktop &"
     ];
+
+    wayland.windowManager.hyprland.settings.exec = [
+        "cycle-wallpaper"
+    ];
 }
