@@ -16,6 +16,30 @@
             ];
         };
 
+        environment.systemPackages = with pkgs; [
+            (writeShellScriptBin "load-portals" ''
+                sleep 1
+                killall xdg-desktop-portal-hyprland
+                killall xdg-desktop-portal-gtk
+                killall xdg-desktop-portal
+
+                killall .xdg-desktop-portal-hyprland-wrapped
+                killall .xdg-desktop-portal-gtk-wrapped
+                killall .xdg-desktop-portal-wrapped
+
+                logger 'killed all xdg-desktop-portals'
+                sleep 1
+                ${pkgs.xdg-desktop-portal-gtk}/libexec/xdg-desktop-portal-gtk &
+                logger 'xdg-desktop-portal-gtk started'
+                sleep 1
+                ${pkgs.xdg-desktop-portal-hyprland}/libexec/xdg-desktop-portal-hyprland &
+                logger 'xdg-desktop-portal-hyprland started'
+                sleep 2
+                ${pkgs.xdg-desktop-portal}/libexec/xdg-desktop-portal &
+                logger 'xdg-desktop-portal started'
+            '')
+        ];
+
         users.users.coolguy = {
             packages = with pkgs; [
                 grim
@@ -33,6 +57,8 @@
                 gtk3
                 qt6.full
                 hyprland-protocols
+                xdg-desktop-portal-gtk
+                xdg-desktop-portal-hyprland
             ];
         };
 
@@ -90,7 +116,7 @@
 
             QT_QPA_PLATFORM = "wayland;xcb";
             
-#            __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/egl_vendor.d/50_mesa.json";
+           __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json";
             VK_LOADER_DRIVERS_DISABLE = "nvidia_icd.json";
         };
 

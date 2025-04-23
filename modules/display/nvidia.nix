@@ -33,9 +33,9 @@
 
             environment.systemPackages = with pkgs; [
                 lsof
-                (writeScriptBin "check-gpu-usage" (builtins.readFile ../../scripts/nvidia/check-gpu-usage.sh))
-                (writeScriptBin "prime-run-base"  (builtins.readFile ../../scripts/nvidia/prime-run-base.sh))
-                (writeScriptBin "prime-run"       (builtins.readFile ../../scripts/nvidia/prime-run.sh))
+                (writeShellScriptBin "check-gpu-usage" (builtins.readFile ../../scripts/nvidia/check-gpu-usage.sh))
+                (writeShellScriptBin "prime-run-base"  (builtins.readFile ../../scripts/nvidia/prime-run-base.sh))
+                (writeShellScriptBin "prime-run"       (builtins.readFile ../../scripts/nvidia/prime-run.sh))
             ];
         })
     ];
