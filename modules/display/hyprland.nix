@@ -1,18 +1,18 @@
 { lib, config, pkgs, ... }: {
-    options.hyprland.enable = lib.mkEnableOption "Enable hyprland";
+    options.hyprland.enable = lib.mkEnableOption "Enable Hyprland";
 
     config = lib.mkIf config.hyprland.enable {
         programs.hyprland = {
             enable = true;
             xwayland.enable = true;
-            #nvidiaPatches = true;
         };
 
         xdg.portal = {
             enable = true;
             xdgOpenUsePortal = true;
-            extraPortals = [
-                pkgs.xdg-desktop-portal-gtk
+            extraPortals = with pkgs; [
+                xdg-desktop-portal-gtk
+                xdg-desktop-portal-hyprland
             ];
         };
 
@@ -20,13 +20,17 @@
             packages = with pkgs; [
                 grim
                 slurp
+                wl-clipboard
                 clipman
-                xdg-desktop-portal-hyprland
+                hyprpicker
+                hyprshade
                 libnotify
+                waypaper
                 swww
                 polkit
                 polkit_gnome
                 gtk4
+                gtk3
                 qt6.full
                 hyprland-protocols
             ];
@@ -80,23 +84,17 @@
         '';
 
         environment.sessionVariables = {
-            NIXOS_OZONE_WL = "1";
-
             XDG_CURRENT_DESKTOP = "Hyprland";
             XDG_SESSION_TYPE = "wayland";
             XDG_SESSION_DESKTOP = "Hyprland";
 
-            QT_AUTO_SCREEN_SCALE_FACTOR = 1;
             QT_QPA_PLATFORM = "wayland;xcb";
-            QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
-            QT_QPA_PLATFORMTHEME = "qt6ct";
+            
+#            __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/egl_vendor.d/50_mesa.json";
+            VK_LOADER_DRIVERS_DISABLE = "nvidia_icd.json";
         };
 
-        hardware = {
-            graphics.enable = true;
-            nvidia.modesetting.enable = true;
-        };
-
+        hardware.graphics.enable = true;
         systemd.user.targets.hyprland-session = {
             unitConfig = {
                 Description = "Hyprland Session";

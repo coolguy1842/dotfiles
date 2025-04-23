@@ -1,0 +1,37 @@
+.app-launcher {
+    background-color: $app-launcher-background-color;
+
+    padding: $app-launcher-padding;
+    border-radius: $app-launcher-border-radius;
+}
+
+$app-launcher-search-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0) inset;
+
+.app-launcher-input {
+    all: unset;
+
+    padding-left: 8px;
+    padding-right: 8px;
+
+    background-color: $app-launcher-input-background-color;
+
+    border-radius: $app-launcher-input-border-radius;
+    box-shadow: $app-launcher-search-box-shadow;
+
+    &:focus {
+        box-shadow: $app-launcher-search-box-shadow;
+    }
+}
+
+.app-launcher-item {
+    @include app-launcher-widget;
+
+    background-color: $app-launcher-item-background-color;
+    
+    padding: $app-launcher-item-padding;
+    border-radius: $app-launcher-item-border-radius;
+
+    &.app-launcher-item-selected {
+        background-color: $app-launcher-item-selected-background-color;
+    }
+}

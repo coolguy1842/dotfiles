@@ -1,0 +1,16 @@
+.bar {
+    background-color: $bar-background-color;
+}
+
+.bar-left-box {
+    margin-left: $bar-outer-padding;
+}
+
+.bar-right-box {
+    margin-right: $bar-outer-padding;
+}
+
+
+.bar-button {
+    @include bar-widget;   
+}

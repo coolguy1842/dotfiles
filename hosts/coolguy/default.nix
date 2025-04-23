@@ -1,10 +1,13 @@
 { config, pkgs, lib, inputs, ... }: {
     imports = [
-        ../modules
+        ../../modules
     ];
 
+    nvidia.enable = true;
+    nvidia.prime.enable = true;
     hyprland.enable = true;
     discord.enable = true;
+    steam.enable = true;
 
     users.defaultUserShell = pkgs.bash;
     
@@ -81,15 +84,39 @@
     ];
 
     environment.systemPackages = with pkgs; [
+        clang-tools
         git
         wget
         bash
         python3
         openssl
+        networkmanagerapplet
         pciutils
         kitty
         vscode
+        smartmontools
         wofi
+        pavucontrol
+        fastfetch
+        nautilus
+        gnome-disk-utility
+        wayfreeze
+        htop
+        lshw
+        youtube-music
+        ente-auth
+        plex-desktop
+        electron-mail
+        element-desktop
+        signal-desktop
+        baobab
+        r2modman
+        psmisc
+        playerctl
+        socat
+        wev
+        mesa-demos
+        inputs.zen-browser.packages."${system}".default
     ];
 
     nix.optimise.automatic = true;
@@ -97,28 +124,6 @@
     nix.gc.automatic = true;
     nix.gc.dates = "daily";
     nix.gc.options = "--delete-older-than 7d";
-
-    boot.initrd.availableKernelModules = [ "nvme" "ahci" "xhci_pci" "usb_storage" "usbhid" "uas" "sd_mod" ];
-    boot.initrd.kernelModules = [ ];
-    boot.kernelModules = [ "kvm-amd" ];
-    boot.extraModulePackages = [ ];
-
-    fileSystems."/" = {
-        device = "/dev/disk/by-uuid/3311c0cf-eea9-47ce-bb4a-0fd52fbb070b";
-        fsType = "ext4";
-    };
-
-    fileSystems."/boot" = {
-        device = "/dev/disk/by-uuid/C533-3787";
-        fsType = "vfat";
-        options = [ "fmask=0077" "dmask=0077" ];
-    };
-
-    swapDevices = [
-        { device = "/dev/disk/by-uuid/bcaee000-f33a-409c-b5fb-8f9018422953"; }
-    ];
-
-    networking.useDHCP = lib.mkDefault true;
 
     services.udev.extraRules = ''
         SUBSYSTEM=="hidraw", KERNEL=="hidraw*", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="0006", MODE="0660", GROUP="plugdev"

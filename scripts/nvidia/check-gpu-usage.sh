@@ -1,0 +1,1 @@
+lsof -n | grep -e /dev/nvidia -e $(realpath /dev/dri/by-path/pci-0000\:01\:00.0-card) -e $(realpath /dev/dri/by-path/pci-0000\:01\:00.0-render)

@@ -1,0 +1,4 @@
+.vscode
+types
+*options*.json
+swapbranches.sh
