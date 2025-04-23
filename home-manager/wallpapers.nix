@@ -10,14 +10,14 @@ in {
             export SWWW_TRANSITION=wipe
             export SWWW_TRANSITION_ANGLE=45
 
-            current_wallpaper="$(swww query | grep -Eio "image: .*" | grep -Eio "/.*\..*" -A 0 | head -1)"
-            ls "${wallpaperPath}" | sort -R | tail -$N | while read file; do
-                new_wallpaper="${wallpaperPath}/$file"
-                if [[ $current_wallpaper == $new_wallpaper ]]; then
+            current_wallpaper="$(basename "$(swww query | grep -Eio "image: .*" | grep -Eio "/.*\..*" -A 0 | head -1)")"
+            ls "$HOME/${wallpaperPath}" | sort -R | tail -$N | while read file; do
+                new_wallpaper="$HOME/${wallpaperPath}/$file"
+                if [[ $current_wallpaper == $file ]]; then
                     continue
                 fi
 
-                swww img "${wallpaperPath}/$file"
+                swww img "$HOME/${wallpaperPath}/$file"
                 break
             done
         '')
