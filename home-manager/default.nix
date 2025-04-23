@@ -3,12 +3,13 @@
 in {
     home.stateVersion = "24.11";
     imports = [
-        ./git.nix
         ./bash.nix
         ./direnv.nix
+        ./git.nix
         ./theme.nix
         ./kitty.nix
-        ./hyprland
         ./ags.nix
+        ./wallpapers.nix
+        ./hyprland
     ];
 }

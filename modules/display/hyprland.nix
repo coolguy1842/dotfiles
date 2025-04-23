@@ -17,7 +17,6 @@
         };
 
         environment.systemPackages = with pkgs; [
-            (writeShellScriptBin "cycle-wallpaper" (builtins.readFile ../../scripts/cycle-wallpaper.sh))
             (writeShellScriptBin "load-portals" ''
                 killall xdg-desktop-portal-hyprland
                 killall xdg-desktop-portal-gtk
@@ -49,8 +48,6 @@
                 hyprpicker
                 hyprshade
                 libnotify
-                waypaper
-                swww
                 polkit
                 polkit_gnome
                 gtk4
