@@ -1,6 +1,7 @@
-{ inputs, config, pkgs, ... }: {
+{ inputs, config, pkgs, username, ... }: {
     imports = [
         ./commonConfigHook.nix
+        ./commonPackages.nix
     ];
 
     nix = {
@@ -30,6 +31,35 @@
 
     users.groups.plugdev = {};
     services.udev.extraRules = ''
-        SUBSYSTEM=="hidraw", KERNEL=="hidraw*", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="0006", MODE="0660", GROUP="plugdev"
+        SUBSYSTEM=="hidraw", KERNEL=="hidraw*", MODE="0660", GROUP="plugdev"
+        SUBSYSTEM=="input", KERNEL=="event*", MODE="0660", GROUP="plugdev"
+    '';
+
+    security.polkit.extraConfig = ''
+        polkit.addRule(function(action, subject) {
+            if(
+                subject.user == "${username}"
+                && (
+                    action.id.indexOf("org.freedesktop.NetworkManager.") == 0 ||
+                    action.id.indexOf("org.freedesktop.ModemManager") == 0
+                )
+            ) {
+                return polkit.Result.YES;
+            }
+        });
+
+        polkit.addRule(function(action, subject) {
+        if(
+            subject.isInGroup("users")
+            && (
+                action.id == "org.freedesktop.login1.reboot" ||
+                action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
+                action.id == "org.freedesktop.login1.power-off" ||
+                action.id == "org.freedesktop.login1.power-off-multiple-sessions"
+            )
+            ) {
+                return polkit.Result.YES;
+            }
+        });
     '';
 }

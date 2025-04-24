@@ -59,7 +59,7 @@
                     { nixpkgs.config.allowUnfree = true; }
                 ];
 
-                specialArgs = { inherit inputs; inherit username; };
+                specialArgs = { inherit inputs username; };
             };
             
             media = let username = "media"; in nixpkgs.lib.nixosSystem {
@@ -79,7 +79,7 @@
                     { nixpkgs.config.allowUnfree = true; }
                 ];
 
-                specialArgs = { inherit inputs; inherit username; };
+                specialArgs = { inherit inputs username; };
             };
         };
     };

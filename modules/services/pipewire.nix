@@ -1,5 +1,5 @@
 { lib, config, pkgs, ... }: {
-    config = lib.mkIf config.services.sound.pipewire.enable{
+    config = lib.mkIf config.services.sound.pipewire.enable {
         security.rtkit.enable = config.services.sound.pipewire.rtkit.enable;
         services.pipewire = with config.services.sound; {
             enable = true;

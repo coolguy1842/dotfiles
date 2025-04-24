@@ -22,5 +22,13 @@
                 wireplumber.enable = lib.mkOption { type = lib.types.bool; default = true; description = "Enable Wireplumber"; example = false; };
             };
         };
+
+        libvirt = {
+            enable = lib.mkEnableOption "Enable Libvirtd";
+        };
+
+        waveeffect = {
+            enable = lib.mkEnableOption "Enable Keyboard Wave Effect (Keychron V6 only)";
+        };
     };
 }

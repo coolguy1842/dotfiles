@@ -6,6 +6,9 @@
         bluetooth.blueman.enable = true;
         
         sound.pipewire.enable = true;
+
+        libvirt.enable = true;
+        waveeffect.enable = true;
     };
 
     display = {

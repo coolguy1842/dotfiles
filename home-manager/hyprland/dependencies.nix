@@ -4,5 +4,7 @@
         clipman
         hyprpicker
         hyprshade
+        playerctl
+        wayfreeze
     ];
 }
