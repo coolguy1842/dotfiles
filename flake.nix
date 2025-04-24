@@ -30,7 +30,7 @@
 
     outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: {
         nixosConfigurations = {
-            coolguy = nixpkgs.lib.nixosSystem {
+            desktop = nixpkgs.lib.nixosSystem {
                 modules = [
                     {
                         imports = if (builtins.pathExists "${inputs.etc-nixos}/hardware-configuration.nix")
@@ -44,20 +44,17 @@
                         ];
                     }
                     nix-flatpak.nixosModules.nix-flatpak
-                    ./hosts/coolguy
+                    ./configs
                     ./modules
-                    { nixpkgs.hostPlatform = "x86_64-linux"; }
-                    { nixpkgs.config.allowUnfree = true; }
+                    ./hosts/desktop
                     home-manager.nixosModules.home-manager {
                         home-manager.useGlobalPkgs = true;
                         home-manager.useUserPackages = true;
 
                         home-manager.users.coolguy = import ./home-manager/default.nix;
-                        home-manager.extraSpecialArgs = {
-                            inherit inputs;
-                            self = inputs.self;
-                        };
                     }
+                    { nixpkgs.hostPlatform = "x86_64-linux"; }
+                    { nixpkgs.config.allowUnfree = true; }
                 ];
 
                 specialArgs = { inherit inputs; };

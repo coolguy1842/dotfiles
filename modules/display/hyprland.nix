@@ -10,15 +10,27 @@
         xdg.portal = {
             enable = true;
             xdgOpenUsePortal = true;
+            
             extraPortals = with pkgs; [
                 xdg-desktop-portal-gtk
+                xdg-desktop-portal-wlr
                 xdg-desktop-portal-hyprland
             ];
+
+            wlr.enable = true;
         };
 
         environment.systemPackages = with pkgs; [
+            libnotify
+            hyprland-protocols
+            polkit
+            polkit_gnome
+            grim
+            slurp
+            
             (writeShellScriptBin "load-portals" ''
                 killall xdg-desktop-portal-hyprland
+                killall xdg-desktop-portal-wlr
                 killall xdg-desktop-portal-gtk
                 killall xdg-desktop-portal
 
@@ -31,6 +43,9 @@
                 ${pkgs.xdg-desktop-portal-gtk}/libexec/xdg-desktop-portal-gtk &
                 logger 'xdg-desktop-portal-gtk started'
                 sleep 2
+                ${pkgs.xdg-desktop-portal-hyprland}/libexec/xdg-desktop-portal-wlr &
+                logger 'xdg-desktop-portal-wlr started'
+                sleep 2
                 ${pkgs.xdg-desktop-portal-hyprland}/libexec/xdg-desktop-portal-hyprland &
                 logger 'xdg-desktop-portal-hyprland started'
                 sleep 2
@@ -38,19 +53,6 @@
                 logger 'xdg-desktop-portal started'
             '')
         ];
-
-        users.users.coolguy = {
-            packages = with pkgs; [
-                grim
-                slurp
-                libnotify
-                polkit
-                polkit_gnome
-                hyprland-protocols
-                xdg-desktop-portal-gtk
-                xdg-desktop-portal-hyprland
-            ];
-        };
 
         security.polkit.enable = true;
         services.gnome.gnome-keyring.enable = true;

@@ -1,23 +1,14 @@
-{ config, ... }: {
+{ lib, moduleConfig, ... }: {
+    # presume first monitor in list is primary
     wayland.windowManager.hyprland.settings.workspace = [
-        "name:windows, monitor:${config.mainMonitor.name}" # workspace for looking glass
+        "name:windows, monitor:${moduleConfig.hyprland.mainMonitor}" # workspace for looking glass
     ] ++ (
-        builtins.concatLists (
+        lib.flatten (lib.mapAttrsToList (name: monitor: (
             builtins.genList(i:
-                let wsName = "${config.mainMonitor.name}|${toString (i + 1)}"; ws = i + 1; in [
-                    "${toString ws}, defaultName:${wsName}, default:${if i == 0 then "true" else "false" }, monitor:${config.mainMonitor.name}, persistent:true"
+                let wsName = "${name}|${toString (i + 1)}"; ws = monitor.workspaceOffset + i + 1; in [
+                    "${toString ws}, defaultName:${wsName}, default:${if i == 0 then "true" else "false"}, monitor:${name}, persistent:true"
                 ]
-            )
-            config.mainMonitor.workspaces
-        )
-    ) ++ (
-        builtins.concatLists (
-            builtins.genList(i:
-                let wsName = "${config.secondMonitor.name}|${toString (i + 1)}"; ws = config.mainMonitor.workspaces + i + 1; in [
-                    "${toString ws}, defaultName:${wsName}, default:${if i == 0 then "true" else "false"}, monitor:${config.secondMonitor.name}, persistent:true"
-                ]
-            )
-            config.secondMonitor.workspaces
-        )
+            ) monitor.workspaces
+        )) moduleConfig.hyprland.monitors)
     );
 }

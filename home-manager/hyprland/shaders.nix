@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: let
+{ lib, moduleConfig, ... }: let
     shaderPath = ".config/shaders";
 in {
     home.file."${shaderPath}" = {
@@ -7,6 +7,6 @@ in {
     };
 
     wayland.windowManager.hyprland.settings.decoration = {
-        screen_shader = "~/${shaderPath}/${config.activeShader}.glsl";
+        screen_shader = "~/${shaderPath}/${moduleConfig.hyprland.activeShader}.glsl";
     };
 }

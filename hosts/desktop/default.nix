@@ -1,17 +1,12 @@
 { config, pkgs, lib, inputs, ... }: {
     imports = [
-        ../../modules
+        ./configs.nix
+        ../commonConfigHook.nix
     ];
-
-    nvidia.enable = true;
-    nvidia.prime.enable = true;
-    hyprland.enable = true;
-    discord.enable = true;
-    steam.enable = true;
 
     users.defaultUserShell = pkgs.bash;
     
-    home-manager.backupFileExtension = "backup";
+    home-manager.backupFileExtension = "bak";
     nix = {
         package = pkgs.nixVersions.stable;
         extraOptions = "experimental-features = nix-command flakes";
@@ -23,7 +18,7 @@
     boot.loader.efi.canTouchEfiVariables = true;
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
-    networking.hostName = "coolguy-nix";
+    networking.hostName = "nixos-desktop";
     networking.networkmanager.enable = true;
 
     time.timeZone = "Australia/Brisbane";
@@ -65,16 +60,6 @@
     };
     
     services.gvfs.enable = true;
-
-    services.flatpak.enable = true;
-    services.flatpak.remotes = [
-        { name = "flathub"; location = "https://flathub.org/repo/flathub.flatpakrepo"; }
-    ];
-
-    services.flatpak.packages = [
-        "com.github.tchx84.Flatseal"
-        "org.vinegarhq.Sober"
-    ];
 
     services.displayManager.sddm = {
             enable = true;
@@ -130,10 +115,11 @@
         wayfreeze
         htop
         lshw
+        cheese
         youtube-music
         proton-pass
         ente-auth
-        plex-desktop
+        plex-media-player
         electron-mail
         element-desktop
         signal-desktop
@@ -149,7 +135,7 @@
         inputs.zen-browser.packages."${system}".default
     ];
 
-    nix.optimise.automatic = true;
+    nix.settings.auto-optimise-store = true;
 
     nix.gc.automatic = true;
     nix.gc.dates = "daily";
@@ -158,6 +144,6 @@
     services.udev.extraRules = ''
         SUBSYSTEM=="hidraw", KERNEL=="hidraw*", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="0006", MODE="0660", GROUP="plugdev"
     '';
-
+    
     system.stateVersion = "24.11";
 }
