@@ -1,7 +1,5 @@
 { config, lib, pkgs, ... }: {
-    options.steam.enable = lib.mkEnableOption "Enable Steam";
-
-    config = lib.mkIf config.steam.enable {
+    config = lib.mkIf config.games.steam.enable {
         programs.steam = {
             enable = true;
             package = with pkgs; steam.override { extraPkgs = pkgs: [attr]; };

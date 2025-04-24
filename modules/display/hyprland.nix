@@ -1,7 +1,5 @@
 { lib, config, pkgs, ... }: {
-    options.hyprland.enable = lib.mkEnableOption "Enable Hyprland";
-
-    config = lib.mkIf config.hyprland.enable {
+    config = lib.mkIf config.display.hyprland.enable {
         programs.hyprland = {
             enable = true;
             xwayland.enable = true;
@@ -73,55 +71,13 @@
             };
         };
 
-        security.polkit.extraConfig = ''
-            polkit.addRule(function(action, subject) {
-                if(
-                    subject.user == "coolguy"
-                    && (
-                        action.id.indexOf("org.freedesktop.NetworkManager.") == 0 ||
-                        action.id.indexOf("org.freedesktop.ModemManager") == 0
-                    )
-                ) {
-                    return polkit.Result.YES;
-                }
-            });
-
-            polkit.addRule(function(action, subject) {
-            if(
-                subject.isInGroup("users")
-                && (
-                    action.id == "org.freedesktop.login1.reboot" ||
-                    action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
-                    action.id == "org.freedesktop.login1.power-off" ||
-                    action.id == "org.freedesktop.login1.power-off-multiple-sessions"
-                )
-                ) {
-                    return polkit.Result.YES;
-                }
-            });
-        '';
-
         environment.sessionVariables = {
-            XDG_CURRENT_DESKTOP = "Hyprland";
-            XDG_SESSION_TYPE = "wayland";
-            XDG_SESSION_DESKTOP = "Hyprland";
-
-            QT_QPA_PLATFORM = "wayland;xcb";
-            
            __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json";
+
             VK_ICD_FILENAMES          = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json";
             VK_LOADER_DRIVERS_DISABLE = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/nouveau_icd.x86_64.json";
         };
 
         hardware.graphics.enable = true;
-        systemd.user.targets.hyprland-session = {
-            unitConfig = {
-                Description = "Hyprland Session";
-                BindsTo = [ "graphical-session.target" ];
-                Wants = [ "graphical-session-pre.target" "xdg-desktop-autostart.target" ];
-                After = [ "graphical-session-pre.target" ];
-                Before = [ "xdg-desktop-autostart.target" ];
-            };
-        };
     };
 }

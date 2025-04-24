@@ -3,6 +3,6 @@
         inherit inputs;
         self = inputs.self;
 
-        moduleConfig = config;
+        cfg = config;
     };
 }

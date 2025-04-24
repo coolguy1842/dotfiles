@@ -1,9 +1,6 @@
 { lib, config, pkgs, ... }: {
-    options.nvidia.enable = lib.mkEnableOption "Enable NVIDIA";
-    options.nvidia.prime.enable = lib.mkEnableOption "Enable NVIDIA-Prime";
-
     config = lib.mkMerge [
-        (lib.mkIf config.nvidia.enable {
+        (lib.mkIf config.display.nvidia.enable {
             services.xserver.videoDrivers = [ "amdgpu" "nvidia"];
             hardware = {
                 graphics.enable = true;  
@@ -20,7 +17,7 @@
                 };
             };
         })
-        (lib.mkIf (config.nvidia.enable && config.nvidia.prime.enable) {
+        (lib.mkIf (config.display.nvidia.enable && config.display.nvidia.prime.enable) {
             hardware.nvidia.prime = {
                 offload = {
                     enable = true;
@@ -33,9 +30,9 @@
 
             environment.systemPackages = with pkgs; [
                 lsof
-                (writeShellScriptBin "check-gpu-usage" (builtins.readFile ../../scripts/nvidia/check-gpu-usage.sh))
-                (writeShellScriptBin "prime-run-base"  (builtins.readFile ../../scripts/nvidia/prime-run-base.sh))
-                (writeShellScriptBin "prime-run"       (builtins.readFile ../../scripts/nvidia/prime-run.sh))
+                (writeShellScriptBin "check-gpu-usage" (lib.readFile ../../scripts/nvidia/check-gpu-usage.sh))
+                (writeShellScriptBin "prime-run-base"  (lib.readFile ../../scripts/nvidia/prime-run-base.sh))
+                (writeShellScriptBin "prime-run"       (lib.readFile ../../scripts/nvidia/prime-run.sh))
             ];
 
             environment.sessionVariables = {

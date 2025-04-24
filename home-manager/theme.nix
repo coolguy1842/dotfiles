@@ -1,5 +1,4 @@
 { pkgs, ... }: {
-    # home.file.".icons/default".source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ"; 
     home.pointerCursor = {
         gtk.enable = true;
         package = pkgs.vanilla-dmz;
@@ -21,7 +20,9 @@
     gtk.enable = true;
     gtk.theme.name = "Adwaita-dark";
     gtk.theme.package = pkgs.gnome-themes-extra;
-
+    gtk.iconTheme.name = "Adwaita";
+    gtk.iconTheme.package = pkgs.adwaita-icon-theme;
+    
     home.sessionVariables.QT_QPA_PLATFORMTHEME = "adwaita-dark";
     home.sessionVariables.GTK_THEME = "Adwaita-dark";
 

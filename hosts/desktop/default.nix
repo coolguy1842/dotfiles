@@ -1,16 +1,8 @@
-{ config, pkgs, lib, inputs, ... }: {
+{ config, pkgs, lib, inputs, ... }: let username = "coolguy"; in {
     imports = [
-        ./configs.nix
-        ../commonConfigHook.nix
+        ../common.nix
+        ./config.nix
     ];
-
-    users.defaultUserShell = pkgs.bash;
-    
-    home-manager.backupFileExtension = "bak";
-    nix = {
-        package = pkgs.nixVersions.stable;
-        extraOptions = "experimental-features = nix-command flakes";
-    };
 
     hardware.enableRedistributableFirmware = true;
 
@@ -18,81 +10,46 @@
     boot.loader.efi.canTouchEfiVariables = true;
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
-    networking.hostName = "nixos-desktop";
-    networking.networkmanager.enable = true;
-
-    time.timeZone = "Australia/Brisbane";
-    i18n.defaultLocale = "en_AU.UTF-8";
-
-    i18n.extraLocaleSettings = {
-        LC_ADDRESS = "en_AU.UTF-8";
-        LC_IDENTIFICATION = "en_AU.UTF-8";
-        LC_MEASUREMENT = "en_AU.UTF-8";
-        LC_MONETARY = "en_AU.UTF-8";
-        LC_NAME = "en_AU.UTF-8";
-        LC_NUMERIC = "en_AU.UTF-8";
-        LC_PAPER = "en_AU.UTF-8";
-        LC_TELEPHONE = "en_AU.UTF-8";
-        LC_TIME = "en_AU.UTF-8";
+    networking = {
+        networkmanager.enable = true;
+        
+        firewall = {
+            enable = true;
+            allowedTCPPorts = [ 22 ];
+            allowedUDPPorts = [ 22 ];
+        };
     };
-
-    services.xserver.xkb = {
-        layout = "us";
-        variant = "";
-    };
-
-    networking.firewall = {
-        enable = true;
-        allowedTCPPorts = [ 22 ];
-        allowedUDPPorts = [ 22 ];
-    };
-
-    hardware.bluetooth.enable = true;
 
     security.rtkit.enable = true;
-    services.pulseaudio.enable = false;
-    services.pipewire = {
-        enable = true;
-        alsa.enable = true;
-        alsa.support32Bit = true;
-        pulse.enable = true;
-        jack.enable = true;
-    };
-    
-    services.gvfs.enable = true;
-
-    services.displayManager.sddm = {
+    services = {
+        pulseaudio.enable = false;
+        pipewire = {
             enable = true;
-            wayland = {
-                enable = true;
-           };
+            alsa.enable = true;
+            alsa.support32Bit = true;
+            pulse.enable = true;
+            jack.enable = true;
         };
 
-    services.flatpak.update.auto = {
-        enable = true;
-        onCalendar = "weekly"; # Default value
+        displayManager.sddm = {
+            enable = true;
+            wayland.enable = true;
+        };
+
+        flatpak = {
+            update.auto = {
+                enable = true;
+                onCalendar = "weekly";
+            };
+            
+            uninstallUnmanaged = true;
+        };
     };
     
-    services.flatpak.uninstallUnmanaged = true;
-
-    users.groups.plugdev = {};
-    users.users.coolguy = {
+    users.users."${username}" = {
         isNormalUser = true;
-        description = "coolguy";
-        extraGroups = [
-            "networkmanager"
-            "wheel"
-            "dialout"
-            "plugdev"
-        ];
+        extraGroups = [ "networkmanager" "wheel" "dialout" "plugdev" ];
     };
-
-    fonts.packages = with pkgs; [
-        source-code-pro
-        font-awesome
-        powerline-fonts
-        powerline-symbols
-    ];
 
     # TODO: add modules for these
     environment.systemPackages = with pkgs; [
@@ -135,15 +92,32 @@
         inputs.zen-browser.packages."${system}".default
     ];
 
-    nix.settings.auto-optimise-store = true;
+    security.polkit.extraConfig = ''
+        polkit.addRule(function(action, subject) {
+            if(
+                subject.user == "${username}"
+                && (
+                    action.id.indexOf("org.freedesktop.NetworkManager.") == 0 ||
+                    action.id.indexOf("org.freedesktop.ModemManager") == 0
+                )
+            ) {
+                return polkit.Result.YES;
+            }
+        });
 
-    nix.gc.automatic = true;
-    nix.gc.dates = "daily";
-    nix.gc.options = "--delete-older-than 2d";
-
-    services.udev.extraRules = ''
-        SUBSYSTEM=="hidraw", KERNEL=="hidraw*", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="0006", MODE="0660", GROUP="plugdev"
+        polkit.addRule(function(action, subject) {
+        if(
+            subject.isInGroup("users")
+            && (
+                action.id == "org.freedesktop.login1.reboot" ||
+                action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
+                action.id == "org.freedesktop.login1.power-off" ||
+                action.id == "org.freedesktop.login1.power-off-multiple-sessions"
+            )
+            ) {
+                return polkit.Result.YES;
+            }
+        });
     '';
-    
-    system.stateVersion = "24.11";
+
 }

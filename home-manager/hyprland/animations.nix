@@ -1,6 +1,6 @@
-{ ... }: {
+{ cfg, ... }: {
     wayland.windowManager.hyprland.settings.animations = {
-        enabled = "yes";
+        enabled = (if cfg.display.hyprland.animation.enable then "yes" else "no");
         bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
 
         animation = [

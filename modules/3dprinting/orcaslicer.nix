@@ -1,8 +1,6 @@
 { lib, config, pkgs, ... }: {
-    options.orca-slicer.enable = lib.mkEnableOption "Enable OrcaSlicer";
-
-    config = lib.mkIf config.orca-slicer.enable {
-        users.users.coolguy.packages = with pkgs; [
+    config = lib.mkIf config."3dprinting".orca-slicer.enable {
+        environment.systemPackages = with pkgs; [
             orca-slicer
         ];
     };

@@ -1,5 +1,5 @@
 { ... }: {
     imports = [
-        ./discord.nix
+        ./bluetooth.nix
     ];
 }
