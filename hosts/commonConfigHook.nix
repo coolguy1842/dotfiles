@@ -1,8 +1,8 @@
-{ inputs, config, ... }: {
+{ inputs, config, username, ... }: {
     home-manager.extraSpecialArgs = {
-        inherit inputs;
+        inherit inputs username;
+        
         self = inputs.self;
-
         cfg = config;
     };
 }

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }: let username = "coolguy"; in {
+{ config, pkgs, lib, inputs, username, ... }: {
     imports = [
         ../common.nix
         ./config.nix
@@ -22,15 +22,6 @@
 
     security.rtkit.enable = true;
     services = {
-        pulseaudio.enable = false;
-        pipewire = {
-            enable = true;
-            alsa.enable = true;
-            alsa.support32Bit = true;
-            pulse.enable = true;
-            jack.enable = true;
-        };
-
         displayManager.sddm = {
             enable = true;
             wayland.enable = true;
@@ -73,10 +64,8 @@
         htop
         lshw
         cheese
-        youtube-music
         proton-pass
         ente-auth
-        plex-media-player
         electron-mail
         element-desktop
         signal-desktop

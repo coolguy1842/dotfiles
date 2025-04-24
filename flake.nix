@@ -28,21 +28,23 @@
         };
     };
 
-    outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: {
+    outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: let
+        hardware-config-import = {
+            imports = if (builtins.pathExists "${inputs.etc-nixos}/hardware-configuration.nix")
+                then [ (import "${inputs.etc-nixos}/hardware-configuration.nix") ]
+                else [];
+            assertions = [
+                {
+                    assertion = builtins.pathExists "${inputs.etc-nixos}/hardware-configuration.nix";
+                    message = "The hardware-configuration file is missing at ${inputs.etc-nixos}/hardware-configuration.nix";
+                }
+            ];
+        };
+    in {
         nixosConfigurations = {
-            desktop = nixpkgs.lib.nixosSystem {
+            desktop = let username = "coolguy"; in nixpkgs.lib.nixosSystem {
                 modules = [
-                    {
-                        imports = if (builtins.pathExists "${inputs.etc-nixos}/hardware-configuration.nix")
-                            then [ (import "${inputs.etc-nixos}/hardware-configuration.nix") ]
-                            else [];
-                        assertions = [
-                            {
-                                assertion = builtins.pathExists "${inputs.etc-nixos}/hardware-configuration.nix";
-                                message = "The hardware-configuration file is missing at ${inputs.etc-nixos}/hardware-configuration.nix";
-                            }
-                        ];
-                    }
+                    hardware-config-import
                     nix-flatpak.nixosModules.nix-flatpak
                     ./configs
                     ./modules
@@ -51,13 +53,33 @@
                         home-manager.useGlobalPkgs = true;
                         home-manager.useUserPackages = true;
 
-                        home-manager.users.coolguy = import ./home-manager/default.nix;
+                        home-manager.users."${username}" = import ./home-manager/default.nix;
                     }
                     { nixpkgs.hostPlatform = "x86_64-linux"; }
                     { nixpkgs.config.allowUnfree = true; }
                 ];
 
-                specialArgs = { inherit inputs; };
+                specialArgs = { inherit inputs; inherit username; };
+            };
+            
+            media = let username = "media"; in nixpkgs.lib.nixosSystem {
+                modules = [
+                    hardware-config-import
+                    nix-flatpak.nixosModules.nix-flatpak
+                    ./configs
+                    ./modules
+                    ./hosts/media
+                    home-manager.nixosModules.home-manager {
+                        home-manager.useGlobalPkgs = true;
+                        home-manager.useUserPackages = true;
+
+                        home-manager.users."${username}" = import ./home-manager/default.nix;
+                    }
+                    { nixpkgs.hostPlatform = "x86_64-linux"; }
+                    { nixpkgs.config.allowUnfree = true; }
+                ];
+
+                specialArgs = { inherit inputs; inherit username; };
             };
         };
     };
