@@ -1,7 +1,7 @@
 { lib, config, pkgs, ... }: {
     config = lib.mkMerge [
         (lib.mkIf config.display.nvidia.enable {
-            services.xserver.videoDrivers = [ "amdgpu" "nvidia"];
+            services.xserver.videoDrivers = [ "nvidia" ];
             hardware = {
                 graphics.enable = true;  
 

@@ -1,5 +1,5 @@
 { pkgs, ... }: let 
-    wallpaperPath = "Wallpapers";
+    wallpaperPath = "${config.xdg.configHome}/wallpapers";
 in {
     home.packages = with pkgs; [
         swww
@@ -11,13 +11,13 @@ in {
             export SWWW_TRANSITION_ANGLE=45
 
             current_wallpaper="$(basename "$(swww query | grep -Eio "image: .*" | grep -Eio "/.*\..*" -A 0 | head -1)")"
-            ls "$HOME/${wallpaperPath}" | sort -R | tail -$N | while read file; do
-                new_wallpaper="$HOME/${wallpaperPath}/$file"
+            ls "$${wallpaperPath}" | sort -R | tail -$N | while read file; do
+                new_wallpaper="${wallpaperPath}/$file"
                 if [[ $current_wallpaper == $file ]]; then
                     continue
                 fi
 
-                swww img "$HOME/${wallpaperPath}/$file"
+                swww img "${wallpaperPath}/$file"
                 break
             done
         '')

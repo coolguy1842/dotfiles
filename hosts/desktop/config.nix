@@ -9,6 +9,7 @@
     display = {
         nvidia.enable = true;
         nvidia.prime.enable = true;
+        nvidia.cuda.enable = true;
 
         ags.enable = true;
         hyprland = {
@@ -32,7 +33,14 @@
     };
 
     applications = {
+        defaults = {
+            web-browser = inputs.zen-browser.packages."${system}".default;
+            file-browser = pkgs.nautilus;
+            terminal = pkgs.kitty;
+        };
+        
         discord.enable = true;
+        blender.enable = true;
     };
     
     games = {
@@ -68,9 +76,12 @@
         LC_TIME = config.input.locale;
     };
 
-    services.xserver.xkb = {
-        layout = config.input.keyboardLayout;
-        variant = "";
+    services.xserver = {
+        videoDrivers = [ "amdgpu" ];
+        xkb = {
+            layout = config.input.keyboardLayout;
+            variant = "";
+        };
     };
 
     system.stateVersion = "24.11";
