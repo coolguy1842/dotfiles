@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, pkgs, inputs, ... }: {
     users.defaultUserShell = pkgs.bash;
     
     services = {
@@ -34,7 +34,7 @@
 
     applications = {
         defaults = {
-            web-browser = inputs.zen-browser.packages."${system}".default;
+            web-browser = inputs.zen-browser.packages."${pkgs.system}".default;
             file-browser = pkgs.nautilus;
             terminal = pkgs.kitty;
         };
