@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ inputs, pkgs, ... }: {
     # TODO: add modules for these
     environment.systemPackages = with pkgs; [
         clang-tools

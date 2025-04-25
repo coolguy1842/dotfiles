@@ -2,11 +2,6 @@
     description = "NixOS Config";
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-        
-        etc-nixos = {
-            url = "path:/etc/nixos";
-            flake = false;
-        };
 
         home-manager = {
             url = "github:nix-community/home-manager";
@@ -28,11 +23,11 @@
         };
     };
 
-    outputs = { nixpkgs, nix-flatpak, etc-nixos, home-manager, ... } @ inputs: {
+    outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: {
         nixosConfigurations = {
             desktop = let username = "coolguy"; in nixpkgs.lib.nixosSystem {
                 modules = [
-                    "${etc-nixos}/hardware-configuration.nix"
+                    ./hardwareConfigurations/desktop.nix
                     nix-flatpak.nixosModules.nix-flatpak
                     ./configs
                     ./modules
@@ -52,7 +47,7 @@
             
             media = let username = "media"; in nixpkgs.lib.nixosSystem {
                 modules = [
-                    "${etc-nixos}/hardware-configuration.nix"
+                    ./hardwareConfigurations/media.nix
                     nix-flatpak.nixosModules.nix-flatpak
                     ./configs
                     ./modules
