@@ -10,6 +10,7 @@
         fastfetch
         nautilus
         gnome-disk-utility
+        gnome-text-editor
         cheese
         proton-pass
         ente-auth

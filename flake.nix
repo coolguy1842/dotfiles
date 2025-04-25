@@ -23,47 +23,29 @@
         };
     };
 
-    outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: {
+    outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: let 
+        defaultConfig = configName: username: nixpkgs.lib.nixosSystem {
+            modules = [
+                ./hardwareConfigurations/${configName}.nix
+                nix-flatpak.nixosModules.nix-flatpak
+                ./configs
+                ./hosts/${configName}
+                home-manager.nixosModules.home-manager {
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+
+                    home-manager.users."${username}" = import ./home-manager/users/${configName}.nix;
+                }
+                { nixpkgs.hostPlatform = "x86_64-linux"; }
+                { nixpkgs.config.allowUnfree = true; }
+            ];
+
+            specialArgs = { inherit inputs username; };
+        };
+    in {
         nixosConfigurations = {
-            desktop = let username = "coolguy"; in nixpkgs.lib.nixosSystem {
-                modules = [
-                    ./hardwareConfigurations/desktop.nix
-                    nix-flatpak.nixosModules.nix-flatpak
-                    ./configs
-                    ./modules
-                    ./hosts/desktop
-                    home-manager.nixosModules.home-manager {
-                        home-manager.useGlobalPkgs = true;
-                        home-manager.useUserPackages = true;
-
-                        home-manager.users."${username}" = import ./home-manager/default.nix;
-                    }
-                    { nixpkgs.hostPlatform = "x86_64-linux"; }
-                    { nixpkgs.config.allowUnfree = true; }
-                ];
-
-                specialArgs = { inherit inputs username; };
-            };
-            
-            media = let username = "media"; in nixpkgs.lib.nixosSystem {
-                modules = [
-                    ./hardwareConfigurations/media.nix
-                    nix-flatpak.nixosModules.nix-flatpak
-                    ./configs
-                    ./modules
-                    ./hosts/media
-                    home-manager.nixosModules.home-manager {
-                        home-manager.useGlobalPkgs = true;
-                        home-manager.useUserPackages = true;
-
-                        home-manager.users."${username}" = import ./home-manager/users/media.nix;
-                    }
-                    { nixpkgs.hostPlatform = "x86_64-linux"; }
-                    { nixpkgs.config.allowUnfree = true; }
-                ];
-
-                specialArgs = { inherit inputs username; };
-            };
+            desktop = defaultConfig "desktop" "coolguy";
+            media = defaultConfig "media" "media";
         };
     };
 }

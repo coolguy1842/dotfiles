@@ -1,5 +1,6 @@
 { inputs, config, pkgs, username, ... }: {
     imports = [
+        ../modules
         ./commonConfigHook.nix
         ./commonConfigs.nix
         ./commonPackages.nix

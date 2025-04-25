@@ -27,6 +27,8 @@
         };
     };
 
+    home.sessionVariables.GTK_THEME = "Adwaita-dark";
+
     dconf = {
         enable = true;
         settings = {

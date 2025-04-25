@@ -1,7 +1,8 @@
-{ inputs, pkgs, ... }: let
+{ lib, inputs, pkgs, ... }: let
     zenPath = "${inputs.zen-browser.packages."${pkgs.system}".default}";
     zenAppPath = [ "zen-beta.desktop" "zen.desktop" "${zenPath}/share/applications/zen-beta.desktop" "${zenPath}/share/applications/zen.desktop" ];
 in {
+    xdg.portal.enable = lib.mkForce false;
     xdg.mimeApps = {
         enable = true;
   

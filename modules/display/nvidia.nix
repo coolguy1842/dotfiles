@@ -16,6 +16,10 @@
                     package = config.boot.kernelPackages.nvidiaPackages.latest;
                 };
             };
+
+            environment.sessionVariables = {
+                VK_LOADER_DRIVERS_DISABLE = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/nouveau_icd.x86_64.json";
+            };
         })
         (lib.mkIf (config.display.nvidia.enable && config.display.nvidia.prime.enable) {
             hardware.nvidia.prime = {

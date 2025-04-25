@@ -49,7 +49,6 @@
     };
 
     media = {
-        plex.media-player.enable = true;
         plex.desktop.enable = true;
         youtube-music.enable = true;
     };
@@ -68,6 +67,11 @@
         
         keyboardLayout = "us";
         locale = "en_AU.UTF-8";
+    };
+
+    environment.sessionVariables = {
+        __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json";
+        VK_ICD_FILENAMES = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json,${pkgs.mesa}/share/vulkan/icd.d/intel_icd.x86_64.json";
     };
 
     system.stateVersion = "24.11";

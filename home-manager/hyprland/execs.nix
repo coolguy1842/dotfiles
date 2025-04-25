@@ -1,7 +1,6 @@
 { lib, cfg, ... }: {
     wayland.windowManager.hyprland.settings.exec-once = [
-        "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-        "load-portals"
+        "systemctl --user import-environment PATH WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "swww-daemon &"
         "playerctld &"
         "nm-applet &"
