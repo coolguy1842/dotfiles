@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ lib, config, pkgs, ... }: {
     users.defaultUserShell = pkgs.bash;
 
     services = {
@@ -12,19 +12,14 @@
             enable = true;
             animation.enable = true;
 
-            drmDevices = [ "pci-0000:11:00.0-card" ];
-
-            primaryMonitor = "DP-1";
+            primaryMonitor = "HDMI-A-1";
             monitors = {
-                DP-1     = { workspaces = 9; resolution = "1920x1080"; refreshRate = 165; position = "1680x0"; };
-                HDMI-A-1 = { workspaces = 1; resolution = "1680x1050"; refreshRate = 60; position = "0x30"; workspaceBind = "${config.display.hyprland.modifier} ALT"; workspaceIDOffset = 9; };
+                HDMI-A-1 = { workspaces = 9; };
             };
         };
     };
     
-    media = {
-        plex.media-player.enable = true;
-    };
+    media.plex.htpc.enable = true;
 
     input = {
         keyboardLayout = "us";

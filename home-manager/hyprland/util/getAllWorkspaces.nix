@@ -4,7 +4,6 @@
             monitor = {
                 name = name;
                 workspaceBind = monitor.workspaceBind;
-                workspaceIDOffset = monitor.workspaceIDOffset;
             };
 
             name = "${name}|${toString (i + 1)}";

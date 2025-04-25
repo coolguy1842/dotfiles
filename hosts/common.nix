@@ -1,6 +1,7 @@
 { inputs, config, pkgs, username, ... }: {
     imports = [
         ./commonConfigHook.nix
+        ./commonConfigs.nix
         ./commonPackages.nix
     ];
 
@@ -19,6 +20,14 @@
 
     services = {
         gvfs.enable = true;
+        flatpak = {  
+            update.auto = {
+                enable = true;
+                onCalendar = "weekly";
+            };
+            
+            uninstallUnmanaged = true;
+        };
     };
 
     home-manager.backupFileExtension = "backup";

@@ -1,13 +1,28 @@
-{ lib, config, pkgs, username, ... }: {
+{ lib, config, inputs, pkgs, username, ... }: {
     imports = [
         ../common.nix
         ./config.nix
+        ./packages.nix
     ];
 
-    users.defaultUserShell = pkgs.bash;
-    
+    boot.loader = {
+        systemd-boot.enable = true;
+        efi.canTouchEfiVariables = true;
+    };
+
+    networking = {
+        networkmanager.enable = true;
+        firewall.enable = true;
+    };
+
+    services = {
+        dbus.enable = true;
+        getty.autologinUser = "${username}";
+    };
+
+    users.defaultUserShell = pkgs.bash;    
     users.users."${username}" = {
         isNormalUser = true;
-        extraGroups = [ "networkmanager" "dialout" ];
+        extraGroups = [ "networkmanager" "wheel" "dialout" ];
     };
 }

@@ -12,10 +12,9 @@
                 options = {
                     workspaceBind = mkOption { type = types.str; default = "${config.display.hyprland.modifier}"; };
                     workspaces = mkOption { type = types.int; };
-                    workspaceIDOffset = mkOption { type = types.int; default = 0; };
-
+                    
                     resolution = mkOption { type = types.str; default = "preferred"; };
-                    refreshRate = mkOption { type = types.nullOr types.int; example = 60; };
+                    refreshRate = mkOption { type = types.nullOr types.int; default = null; example = 60; };
 
                     position = mkOption { type = types.str; default = "auto"; };
                     scaling = mkOption { type = types.float; default = 1.0; };
