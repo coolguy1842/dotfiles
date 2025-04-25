@@ -15,6 +15,26 @@
         firewall.enable = true;
     };
 
+    hardware.graphics.enable = true;
+    xdg.portal = {
+        enable = true;
+        xdgOpenUsePortal = true;
+        
+        extraPortals = with pkgs; [
+            xdg-desktop-portal-gtk
+            xdg-desktop-portal-wlr
+        ];
+
+        config = {
+            common = {
+                default = [
+                    "gtk"
+                    "wlr"
+                ];
+            };
+        };
+    };
+
     services = {
         dbus.enable = true;
         getty.autologinUser = "${username}";
