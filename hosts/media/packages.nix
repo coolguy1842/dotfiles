@@ -1,6 +1,3 @@
-{ pkgs, ... }: {
-    environment.systemPackages = with pkgs; [
-        vscode
-        firefox
-    ];
+{ inputs, pkgs, ... }: {
+    environment.systemPackages = with pkgs; [];
 }
