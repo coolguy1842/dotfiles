@@ -2,6 +2,8 @@
     config = lib.mkMerge [
         (lib.mkIf config.display.nvidia.enable {
             services.xserver.videoDrivers = [ "nvidia" ];
+
+            boot.blacklistedKernelModules = [ "nouveau" ];
             hardware = {
                 graphics.enable = true;  
 

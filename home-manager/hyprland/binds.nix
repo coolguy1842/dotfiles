@@ -10,14 +10,14 @@ in {
     };
 
     wayland.windowManager.hyprland.settings.bind = [
-        "${cfg.display.hyprland.modifier}, W, exec, zen"
-        "${cfg.display.hyprland.modifier}, T, exec, kitty"
-        "${cfg.display.hyprland.modifier}, N, exec, nautilus"
+        "${cfg.display.hyprland.modifier}, W, exec, ${cfg.applications.defaults.web-browser.program}"
+        "${cfg.display.hyprland.modifier}, N, exec, ${cfg.applications.defaults.file-browser.program}"
+        "${cfg.display.hyprland.modifier}, T, exec, ${cfg.applications.defaults.terminal.program}"
         "${cfg.display.hyprland.modifier}, Q, killactive"
         "${cfg.display.hyprland.modifier} SHIFT, BACKSPACE, exit"
         "${cfg.display.hyprland.modifier}, F, togglefloating,"
         "${cfg.display.hyprland.modifier}, SPACE, exec, $menu"
-        "ALT, SPACE, exec, qdbus com.coolguy1842.Widgets /Widgets ToggleQuickLauncher"
+        "ALT, SPACE, exec, dbus-send --session --type=method_call --dest=com.coolguy1842.Widgets /Widgets com.coolguy1842.Widgets.ToggleQuickLauncher"
         "${cfg.display.hyprland.modifier}, P, exec, $picker"
         "${cfg.display.hyprland.modifier}, J, togglesplit,"
 

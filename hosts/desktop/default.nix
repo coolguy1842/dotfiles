@@ -9,7 +9,6 @@
 
     boot = {
         kernelPackages = pkgs.linuxPackages_latest;
-        blacklistedKernelModules = [ "nouveau" ];
 
         loader = {
             systemd-boot.enable = true;

@@ -8,9 +8,6 @@
         smartmontools
         pavucontrol
         fastfetch
-        nautilus
-        gnome-disk-utility
-        gnome-text-editor
         cheese
         proton-pass
         ente-auth
@@ -22,6 +19,9 @@
         baobab
         r2modman
         mesa-demos
+        gnome-disk-utility
+        gnome-text-editor
+        kdePackages.dolphin
         inputs.zen-browser.packages."${system}".default
     ];
 }
