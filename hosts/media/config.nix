@@ -1,6 +1,4 @@
 { lib, config, pkgs, username, ... }: {
-    users.defaultUserShell = pkgs.bash;
-
     services.sound.pipewire.enable = true;
     media.plex.htpc.enable = true;
 

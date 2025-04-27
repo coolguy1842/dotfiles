@@ -52,6 +52,17 @@
         };
     };
 
+    programs.bash = {
+        loginShellInit = ''
+            if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+                # give network some time
+                sleep 1
+
+                dbus-run-session ${pkgs.cage}/bin/cage -s -- ${pkgs.flatpak}/bin/flatpak run tv.plex.PlexHTPC
+            fi
+        '';
+    };
+
     networking = {
         networkmanager.enable = true;
         firewall = {
@@ -86,6 +97,8 @@
         dbus.enable = true;
         getty.autologinUser = "${username}";
     };
+
+    systemd.network.wait-online.enable = true;
 
     users.defaultUserShell = pkgs.bash;    
     users.users."${username}" = {
