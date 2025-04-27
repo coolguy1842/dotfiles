@@ -1,9 +1,22 @@
 { lib, config, inputs, pkgs, username, ... }: {
     imports = [
-        ../common.nix
+        ../../modules
         ./config.nix
         ./packages.nix
     ];
+
+    nix = {
+        package = pkgs.nixVersions.stable;
+        extraOptions = "experimental-features = nix-command flakes";
+        
+        settings.auto-optimise-store = true;
+
+        gc = {
+            automatic = true;
+            dates = "daily";
+            options = "--delete-older-than 2d";
+        };
+    };
 
     boot = {
         loader = {
@@ -17,14 +30,25 @@
         plymouth.enable = true;
     };
 
-    services.openssh = {
-        enable = true;
-        ports = [ 22 ];
-        
-        settings = {
-            PasswordAuthentication = true;
-            AllowedUsers = null;
-            PermitRootLogin = "no";
+    services = {
+        flatpak = {  
+            update.auto = {
+                enable = true;
+                onCalendar = "weekly";
+            };
+            
+            uninstallUnmanaged = true;
+        };
+
+        openssh = {
+            enable = true;
+            ports = [ 22 ];
+            
+            settings = {
+                PasswordAuthentication = true;
+                AllowedUsers = null;
+                PermitRootLogin = "no";
+            };
         };
     };
 
