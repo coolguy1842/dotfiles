@@ -39,7 +39,7 @@
 
     applications = {
         defaults = {
-            web-browser  = { program = "zen";     desktopFile = "${inputs.zen-browser.packages."${pkgs.system}".default}/share/applications/zen-beta.desktop"; };
+            web-browser  = { program = "zen";     desktopFile = "zen-beta.desktop"; };
             file-browser = { program = "dolphin"; desktopFile = "dolphin.desktop"; };
             terminal     = { program = "kitty";   desktopFile = "kitty.desktop"; };
         };

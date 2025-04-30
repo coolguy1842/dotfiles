@@ -4,7 +4,8 @@
         clang-tools
         networkmanagerapplet
         kitty
-        vscode
+        gimp
+        vscode.fhs
         smartmontools
         pavucontrol
         fastfetch
@@ -15,6 +16,7 @@
         element-desktop
         signal-desktop
         prismlauncher
+        heroic
         librewolf
         baobab
         r2modman

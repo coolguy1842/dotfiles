@@ -5,6 +5,10 @@
             package = with pkgs; steam.override { extraPkgs = pkgs: [attr]; };
         };
 
+        environment.systemPackages = with pkgs; [
+            protonup-qt
+        ];
+
         # horizon fw bugs out with audio from nofiles
         security.pam.loginLimits = [
             { domain = "*"; type = "soft"; item = "nofile"; value = "8192";     }
