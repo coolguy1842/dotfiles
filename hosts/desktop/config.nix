@@ -38,7 +38,7 @@
     applications = {
         defaults = {
             web-browser  = { program = "zen";     desktopFile = "zen-beta.desktop"; };
-            file-browser = { program = "dolphin"; desktopFile = "dolphin.desktop"; };
+            file-manager = { program = "dolphin"; desktopFile = "dolphin.desktop"; };
             terminal     = { program = "kitty";   desktopFile = "kitty.desktop"; };
         };
         
@@ -69,7 +69,7 @@
 
     environment.sessionVariables = {
         __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json";
-        VK_ICD_FILENAMES = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json,${pkgs.mesa}/share/vulkan/icd.d/intel_icd.x86_64.json";
+        VK_ICD_FILENAMES = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json:${pkgs.mesa}/share/vulkan/icd.d/intel_icd.x86_64.json";
     };
 
     system.stateVersion = "24.11";

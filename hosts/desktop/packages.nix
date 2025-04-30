@@ -15,6 +15,7 @@
         electron-mail
         element-desktop
         signal-desktop
+        gamescope
         prismlauncher
         heroic
         librewolf
@@ -23,6 +24,7 @@
         mesa-demos
         gnome-disk-utility
         gnome-text-editor
+        kdePackages.ark
         kdePackages.dolphin
         inputs.zen-browser.packages."${system}".default
     ];

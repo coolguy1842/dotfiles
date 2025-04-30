@@ -10,6 +10,8 @@
             "text/html"              = web-browser.desktopFile;
             "x-scheme-handler/http"  = web-browser.desktopFile;
             "x-scheme-handler/https" = web-browser.desktopFile;
+
+            "inode/directory" = file-manager.desktopFile;
         };
 
         associations.added = with cfg.applications.defaults; {
@@ -23,6 +25,8 @@
             "application/xhtml+xml"         = [ web-browser.desktopFile ];
             "application/x-extension-xhtml" = [ web-browser.desktopFile ];
             "application/x-extension-xht"   = [ web-browser.desktopFile ];
+
+            "inode/directory" = [ file-manager.desktopFile ];
         };
     };
 }

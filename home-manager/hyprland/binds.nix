@@ -11,7 +11,7 @@ in {
 
     wayland.windowManager.hyprland.settings.bind = [
         "${cfg.display.hyprland.modifier}, W, exec, ${cfg.applications.defaults.web-browser.program}"
-        "${cfg.display.hyprland.modifier}, N, exec, ${cfg.applications.defaults.file-browser.program}"
+        "${cfg.display.hyprland.modifier}, N, exec, ${cfg.applications.defaults.file-manager.program}"
         "${cfg.display.hyprland.modifier}, T, exec, ${cfg.applications.defaults.terminal.program}"
         "${cfg.display.hyprland.modifier}, Q, killactive"
         "${cfg.display.hyprland.modifier} SHIFT, BACKSPACE, exit"

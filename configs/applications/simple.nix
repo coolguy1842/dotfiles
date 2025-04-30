@@ -9,7 +9,7 @@ in {
     options.applications = with lib; {
         defaults = {
             web-browser  = mkOption { type = applicationType; example = { program = "firefox"; desktopFile = "firefox.desktop"; }; };
-            file-browser = mkOption { type = applicationType; example = { program = "dolphin"; desktopFile = "dolphin.desktop"; }; };
+            file-manager = mkOption { type = applicationType; example = { program = "dolphin"; desktopFile = "dolphin.desktop"; }; };
             terminal     = mkOption { type = applicationType; example = { program = "kitty";   desktopFile = "kitty.desktop"; }; };
         };
 
