@@ -1,6 +1,4 @@
 { lib, config, pkgs, inputs, ... }: {
-    users.defaultUserShell = pkgs.bash;
-    
     services = {
         bluetooth.enable = true;
         bluetooth.blueman.enable = true;

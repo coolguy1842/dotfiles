@@ -32,13 +32,7 @@
     };
 
     home-manager.backupFileExtension = "backup";
-    fonts.packages = with pkgs; [
-        source-code-pro
-        font-awesome
-        powerline-fonts
-        powerline-symbols
-    ];
-
+    
     users.groups.plugdev = {};
     services.udev.extraRules = ''
         SUBSYSTEM=="hidraw", KERNEL=="hidraw*", MODE="0660", GROUP="plugdev"

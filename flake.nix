@@ -45,7 +45,19 @@
     in {
         nixosConfigurations = {
             desktop = defaultConfig "desktop" "coolguy";
-            media = defaultConfig "media" "media";
+            media = let username = "media"; in nixpkgs.lib.nixosSystem {
+                modules = [
+                    ./hardwareConfigurations/media.nix
+                    nix-flatpak.nixosModules.nix-flatpak
+                    ./configs
+                    ./hosts/media
+                    { nixpkgs.hostPlatform = "x86_64-linux"; }
+                    { nixpkgs.config.allowUnfree = true; }
+                ];
+
+
+                specialArgs = { inherit inputs username; };
+            };
         };
     };
 }
