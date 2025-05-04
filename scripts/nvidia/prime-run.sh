@@ -13,13 +13,14 @@ ENV_VARS=""
 
 case $USE_GPU in
 dGPU)
-    unset VK_LOADER_DRIVERS_DISABLE
+    VK_LOADER_DRIVERS_DISABLE=""
 
     export __VK_LAYER_NV_optimus=NVIDIA_only
     export __NV_PRIME_RENDER_OFFLOAD=1
     export __GLX_VENDOR_LIBRARY_NAME=nvidia
     export __EGL_VENDOR_LIBRARY_FILENAMES=$(nvidiaPath)/share/glvnd/egl_vendor.d/10_nvidia.json
     export VK_DRIVER_FILES=$(nvidiaPath)/share/vulkan/icd.d/nvidia_icd.x86_64.json
+    export VK_ICD_FILENAMES=$(nvidiaPath)/share/vulkan/icd.d/nvidia_icd.x86_64.json
 
     export DXVK_STATE_CACHE_PATH=~/.cache/dxvk
     export DXVK_FILTER_DEVICE_NAME="RTX 3060"

@@ -1,4 +1,10 @@
-{ inputs, config, pkgs, username, ... }: {
+{ inputs, config, pkgs, username, ... }: let 
+    plugdevRules = pkgs.writeTextFile {
+        name        = "10-plugdev";
+        text        = builtins.readFile ../rules/plugdev.rules;
+        destination = "/etc/udev/rules.d/10-plugdev.rules";
+    };
+in {
     imports = [
         ../modules
         ./commonConfigHook.nix
@@ -34,10 +40,7 @@
     home-manager.backupFileExtension = "backup";
     
     users.groups.plugdev = {};
-    services.udev.extraRules = ''
-        SUBSYSTEM=="hidraw", KERNEL=="hidraw*", MODE="0660", GROUP="plugdev"
-        SUBSYSTEM=="input", KERNEL=="event*", MODE="0660", GROUP="plugdev"
-    '';
+    services.udev.packages = [ plugdevRules ];
 
     security.polkit.extraConfig = ''
         polkit.addRule(function(action, subject) {

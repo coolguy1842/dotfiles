@@ -2,10 +2,10 @@
     config = lib.mkMerge [
         (lib.mkIf config.display.nvidia.enable {
             services.xserver.videoDrivers = [ "nvidia" ];
-
             boot.blacklistedKernelModules = [ "nouveau" ];
+
             hardware = {
-                graphics.enable = true;  
+                graphics.enable = true;
 
                 nvidia = {
                     modesetting.enable = true;
@@ -24,7 +24,7 @@
             };
         })
         (lib.mkIf (config.display.nvidia.enable && config.display.nvidia.prime.enable) {
-            hardware.nvidia.prime = {
+            hardware.nvidia.prime = {    
                 offload = {
                     enable = true;
                     enableOffloadCmd = false;

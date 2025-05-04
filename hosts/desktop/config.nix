@@ -31,6 +31,7 @@
                 discord.keybind = "D";
                 music.keybind = "S";
                 email.keybind = "E";
+                windows.keybind = "G";
             };
         };
     };

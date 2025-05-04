@@ -1,0 +1,1 @@
+KERNEL=="kvmfr[0-9]*", SUBSYSTEM=="kvmfr", GROUP="libvirtd", MODE="0660"

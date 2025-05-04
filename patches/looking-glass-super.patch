@@ -1,0 +1,13 @@
+diff --git a/src/app.c b/src/app.c
+index 9bdebf70..e11030a6 100644
+--- a/src/app.c
++++ b/src/app.c
+@@ -357,7 +357,7 @@ void app_handleKeyPressInternal(int sc)
+   if (!core_inputEnabled())
+     return;
+ 
+-  if (g_params.ignoreWindowsKeys && (sc == KEY_LEFTMETA || sc == KEY_RIGHTMETA))
++  if ((g_params.ignoreWindowsKeys || !g_cursor.grab) && (sc == KEY_LEFTMETA || sc == KEY_RIGHTMETA))
+     return;
+ 
+   if (!g_state.keyDown[sc])

@@ -2,6 +2,7 @@
     imports = [
         ../common.nix
         ./config.nix
+        ./vm.nix
         ./packages.nix
     ];
 
