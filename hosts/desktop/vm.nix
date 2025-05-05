@@ -9,7 +9,7 @@
             echo $((number/1024))
         }
         
-        function prepare() { 
+        function prepare_pages() { 
             # Calculate number of hugepages to allocate from memory (in MB)
             HUGEPAGES="$(($1/$(($(grep Hugepagesize /proc/meminfo | ${pkgs.gawk}/bin/gawk '{print $2}')/1024))))"
         
@@ -34,17 +34,17 @@
             fi
         }
         
-        function release() {
+        function release_pages() {
             echo 0 > /proc/sys/vm/nr_hugepages
         }
         
         case $2 in
         prepare)
             number=$(extract_number $xml_file)
-            prepare $number
+            prepare_pages $number
             ;;
         release)
-            release
+            release_pages
             ;;
         esac
     '';
@@ -53,25 +53,23 @@
         xml_file="/var/lib/libvirt/qemu/$1.xml"
 
         function has_gpu() {
-            local gpus=$(grep -c "<address domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>" $xml_file)
-
-            if [[ $gpus -gt 0 ]]; then
-                echo 1
-            else
-                echo 0
-            fi
+            echo $(grep -c "<address domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>" $xml_file)
         }
 
-        function prepare() {
+        function prepare_gpu() {
             udevadm trigger --type=devices --action=remove --subsystem-match=drm --property-match="ID_PATH=pci-0000:01:00.0"
+            
+            sleep 1
 
             modprobe -r nvidia_drm
             modprobe -r nvidia_modeset
             modprobe -r nvidia_uvm
             modprobe -r nvidia
+            
+            sleep 1
         }
 
-        function release() {
+        function release_gpu() {
             modprobe nvidia_drm
             modprobe nvidia_modeset
             modprobe nvidia_uvm
@@ -80,14 +78,14 @@
 
         case $2 in
         prepare)
-            if [[ $(has_gpu) == 1 ]]; then
-                prepare
+            if [[ $(has_gpu) -gt 0 ]]; then
+                prepare_gpu
             fi
 
             ;;
         release)
-            if [[ $(has_gpu) == 1 ]]; then
-                release
+            if [[ $(has_gpu) -gt 0 ]]; then
+                release_gpu
             fi
 
             ;;
@@ -106,7 +104,7 @@
         start)
             send_notification $1 Started
             ;;
-        release)
+        stopped)
             send_notification $1 Stopped
             ;;
         esac
@@ -159,6 +157,7 @@ in {
           "/dev/hpet",
           "/dev/kvmfr0"
         ]
+
         namespaces = []
     '';
 }

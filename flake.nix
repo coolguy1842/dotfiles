@@ -21,6 +21,10 @@
         nix-flatpak = {
             url = "github:gmodena/nix-flatpak";
         };
+
+        waveeffect = {
+            url = "github:coolguy1842/waveeffect";
+        };
     };
 
     outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: let 

@@ -1,13 +1,22 @@
 diff --git a/src/app.c b/src/app.c
-index 9bdebf70..e11030a6 100644
+index 7b87fe1f..aac7c848 100644
 --- a/src/app.c
 +++ b/src/app.c
-@@ -357,7 +357,7 @@ void app_handleKeyPressInternal(int sc)
+@@ -355,7 +355,7 @@ void app_handleKeyPress(int sc, int charcode)
    if (!core_inputEnabled())
      return;
  
 -  if (g_params.ignoreWindowsKeys && (sc == KEY_LEFTMETA || sc == KEY_RIGHTMETA))
-+  if ((g_params.ignoreWindowsKeys || !g_cursor.grab) && (sc == KEY_LEFTMETA || sc == KEY_RIGHTMETA))
++  if (g_params.ignoreWindowsKeys && !app_isCaptureMode() && (sc == KEY_LEFTMETA || sc == KEY_RIGHTMETA))
      return;
  
    if (!g_state.keyDown[sc])
+@@ -403,7 +403,7 @@ void app_handleKeyRelease(int sc, int charcode)
+   if (!g_state.keyDown[sc])
+     return;
+ 
+-  if (g_params.ignoreWindowsKeys && (sc == KEY_LEFTMETA || sc == KEY_RIGHTMETA))
++  if (g_params.ignoreWindowsKeys && !app_isCaptureMode() && (sc == KEY_LEFTMETA || sc == KEY_RIGHTMETA))
+     return;
+ 
+   uint32_t ps2 = linux_to_ps2[sc];

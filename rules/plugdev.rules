@@ -1,2 +1,2 @@
 SUBSYSTEM=="hidraw", KERNEL=="hidraw*", MODE="0660", GROUP="plugdev"
-SUBSYSTEM=="input", KERNEL=="event*", MODE="0660", GROUP="plugdev"
+SUBSYSTEM=="input", MODE="0660", GROUP="plugdev"
