@@ -1,8 +1,8 @@
 { inputs, config, pkgs, username, ... }: let 
     plugdevRules = pkgs.writeTextFile {
-        name        = "10-plugdev";
+        name        = "90-plugdev";
         text        = builtins.readFile ../rules/plugdev.rules;
-        destination = "/etc/udev/rules.d/10-plugdev.rules";
+        destination = "/etc/udev/rules.d/90-plugdev.rules";
     };
 in {
     imports = [

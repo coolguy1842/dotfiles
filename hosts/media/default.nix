@@ -60,10 +60,11 @@
     };
 
     systemd.network.wait-online.enable = true;
+    boot.kernelModules = [ "uinput" ];
 
     users.defaultUserShell = pkgs.bash;    
     users.users."${username}" = {
         isNormalUser = true;
-        extraGroups = [ "networkmanager" "wheel" "dialout" ];
+        extraGroups = [ "networkmanager" "wheel" "dialout" "plugdev" "input" ];
     };
 }

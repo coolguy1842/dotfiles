@@ -74,6 +74,10 @@
             modprobe nvidia_modeset
             modprobe nvidia_uvm
             modprobe nvidia
+
+            sleep 2
+
+            udevadm trigger --type=devices --action=remove --subsystem-match=drm --property-match="ID_PATH=pci-0000:01:00.0"
         }
 
         case $2 in

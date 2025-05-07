@@ -1,6 +1,12 @@
-{ ... }: {
+{ ... }: let 
+    patchedLG = pkgs.looking-glass-client.overrideAttrs (old: {
+        patches = (old.patches or []) ++ [
+            ../../patches/looking-glass-super.patch
+        ];
+    });
+in {
     wayland.windowManager.hyprland.settings.workspace = [
-        "special:windows, on-created-empty: looking-glass-client"
+        "special:windows, on-created-empty: ${patchedLG}/bin/looking-glass-client"
     ];
 
     programs.looking-glass-client = {

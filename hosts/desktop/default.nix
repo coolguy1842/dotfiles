@@ -38,6 +38,6 @@
     users.defaultUserShell = pkgs.bash;    
     users.users."${username}" = {
         isNormalUser = true;
-        extraGroups = [ "networkmanager" "wheel" "dialout" "plugdev" "libvirtd" "qemu" ];
+        extraGroups = [ "networkmanager" "wheel" "dialout" "input" "plugdev" "libvirtd" "qemu" ];
     };
 }
