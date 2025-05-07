@@ -1,7 +1,7 @@
-{ ... }: let 
+{ pkgs, ... }: let 
     patchedLG = pkgs.looking-glass-client.overrideAttrs (old: {
         patches = (old.patches or []) ++ [
-            ../../patches/looking-glass-super.patch
+            ../../../patches/looking-glass-super.patch
         ];
     });
 in {
