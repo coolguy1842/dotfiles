@@ -1,8 +1,4 @@
-{ pkgs, ... }: {
-    imports = [
-        ../default.nix
-    ];
-
+{ ... }: {
     wayland.windowManager.hyprland.settings.workspace = [
         "special:windows, on-created-empty: looking-glass-client"
     ];

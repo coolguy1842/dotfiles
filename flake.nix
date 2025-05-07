@@ -38,7 +38,7 @@
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
 
-                    home-manager.users."${username}" = import ./home-manager/users/${configName}.nix;
+                    home-manager.users."${username}" = import ./home-manager/users/${configName};
                 }
                 { nixpkgs.hostPlatform = "x86_64-linux"; }
                 { nixpkgs.config.allowUnfree = true; }
@@ -49,19 +49,7 @@
     in {
         nixosConfigurations = {
             desktop = defaultConfig "desktop" "coolguy";
-            media = let username = "media"; in nixpkgs.lib.nixosSystem {
-                modules = [
-                    ./hardwareConfigurations/media.nix
-                    nix-flatpak.nixosModules.nix-flatpak
-                    ./configs
-                    ./hosts/media
-                    { nixpkgs.hostPlatform = "x86_64-linux"; }
-                    { nixpkgs.config.allowUnfree = true; }
-                ];
-
-
-                specialArgs = { inherit inputs username; };
-            };
+            media = defaultConfig "media" "media";
         };
     };
 }

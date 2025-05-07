@@ -4,6 +4,7 @@
             monitor = {
                 name = name;
                 workspaceBind = monitor.workspaceBind;
+                persistentWorkspaces = monitor.persistentWorkspaces;
             };
 
             name = "${name}|${toString (i + 1)}";

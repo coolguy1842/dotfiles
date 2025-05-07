@@ -28,7 +28,6 @@
         };
     };
 
-    security.rtkit.enable = true;
     services = {
         displayManager.sddm = {
             enable = true;

@@ -2,26 +2,39 @@
     services.sound.pipewire.enable = true;
     media.plex.htpc.enable = true;
 
+    display = {
+        hyprland = {
+            enable = true;
+            animation.enable = false;
+
+            primaryMonitor = "HDMI-A-1";
+            monitors = {
+                HDMI-A-1 = {
+                    workspaces = 3;
+                    resolution = "2560x1440";
+                    refreshRate = 100;
+                    position = "0x0";
+
+                    vrr = 1;
+                    
+                    bitdepth = 10;
+                    cm = "hdr";
+                    sdrbrightness = 1.2;
+                    sdrsaturation = 1.0;
+                };
+            };
+        };
+    };
+
     input = {
         keyboardLayout = "us";
         locale = "en_AU.UTF-8";
     };
 
-    networking.hostName = "nixos-${username}";
-
-    time.timeZone = "Australia/Brisbane";
-    i18n.defaultLocale = config.input.locale;
-
-    i18n.extraLocaleSettings = {
-        LC_ADDRESS = config.input.locale;
-        LC_IDENTIFICATION = config.input.locale;
-        LC_MEASUREMENT = config.input.locale;
-        LC_MONETARY = config.input.locale;
-        LC_NAME = config.input.locale;
-        LC_NUMERIC = config.input.locale;
-        LC_PAPER = config.input.locale;
-        LC_TELEPHONE = config.input.locale;
-        LC_TIME = config.input.locale;
+    applications = {
+        defaults = {
+            terminal = { program = "kitty"; desktopFile = "kitty.desktop"; };
+        };
     };
 
     services.xserver = {
