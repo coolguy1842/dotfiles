@@ -38,22 +38,23 @@
         bindr = [ ", ${code}, exec, ${closeScript}" ];
     };
 in {
-    wayland.windowManager.hyprland.settings = let 
+    wayland.windowManager.hyprland.settings = let
+        moveAmount = 2;
         bindsList = [
-            (createRepeatingBind "mouseup" "KP_UP" "${pkgs.ydotool}/bin/ydotool mousemove -- 0 -1")
-            (createRepeatingBind "mousedown" "KP_BEGIN" "${pkgs.ydotool}/bin/ydotool mousemove -- 0 1")
-            (createRepeatingBind "mouseleft" "KP_LEFT" "${pkgs.ydotool}/bin/ydotool mousemove -- -1 0")
-            (createRepeatingBind "mouseright" "KP_RIGHT" "${pkgs.ydotool}/bin/ydotool mousemove -- 1 0")
+            (createRepeatingBind "mouseup" "KP_UP" "${pkgs.ydotool}/bin/ydotool mousemove -- 0 -${toString moveAmount}")
+            (createRepeatingBind "mousedown" "KP_BEGIN" "${pkgs.ydotool}/bin/ydotool mousemove -- 0 ${toString moveAmount}")
+            (createRepeatingBind "mouseleft" "KP_LEFT" "${pkgs.ydotool}/bin/ydotool mousemove -- -${toString moveAmount} 0")
+            (createRepeatingBind "mouseright" "KP_RIGHT" "${pkgs.ydotool}/bin/ydotool mousemove -- ${toString moveAmount} 0")
         ];
 
         bindt = [
-            ", KP_HOME, exec, ${pkgs.ydotool}/bin/ydotool click 0x41"
-            ", KP_PRIOR, exec, ${pkgs.ydotool}/bin/ydotool click 0x40"
+            ", KP_HOME, exec, ${pkgs.ydotool}/bin/ydotool click 0x40"
+            ", KP_PRIOR, exec, ${pkgs.ydotool}/bin/ydotool click 0x41"
         ] ++ (builtins.concatLists (map (b: b.bind) bindsList));
 
         bindrt = [
-            ", KP_HOME, exec, ${pkgs.ydotool}/bin/ydotool click 0x81"
-            ", KP_PRIOR, exec, ${pkgs.ydotool}/bin/ydotool click 0x80"
+            ", KP_HOME, exec, ${pkgs.ydotool}/bin/ydotool click 0x80"
+            ", KP_PRIOR, exec, ${pkgs.ydotool}/bin/ydotool click 0x81"
         ] ++ (builtins.concatLists (map (b: b.bindr) bindsList));
     in {
         inherit bindt bindrt;
