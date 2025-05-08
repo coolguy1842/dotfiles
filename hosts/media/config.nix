@@ -17,7 +17,7 @@
 
                     vrr = 1;
                     
-                    bitdepth = 10;
+                    bitdepth = 8;
                     cm = "hdr";
                     sdrbrightness = 1.2;
                     sdrsaturation = 1.0;
