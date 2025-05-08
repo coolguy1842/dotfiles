@@ -18,13 +18,8 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        nix-flatpak = {
-            url = "github:gmodena/nix-flatpak";
-        };
-
-        waveeffect = {
-            url = "github:coolguy1842/waveeffect";
-        };
+        nix-flatpak.url = "github:gmodena/nix-flatpak";
+        waveeffect.url = "github:coolguy1842/waveeffect";
     };
 
     outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: let 
@@ -32,7 +27,7 @@
             modules = [
                 ./hardwareConfigurations/${configName}.nix
                 nix-flatpak.nixosModules.nix-flatpak
-                ./configs
+                ./hosts/common
                 ./hosts/${configName}
                 home-manager.nixosModules.home-manager {
                     home-manager.useGlobalPkgs = true;

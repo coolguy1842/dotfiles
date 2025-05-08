@@ -13,6 +13,7 @@
         lshw
         psmisc
         pciutils
+        usbutils
 
         libsForQt5.qt5ct
         qt6ct

@@ -1,6 +1,5 @@
 { config, pkgs, lib, inputs, username, ... }: {
     imports = [
-        ../common.nix
         ./config.nix
         ./vm.nix
         ./packages.nix
