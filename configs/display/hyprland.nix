@@ -19,6 +19,7 @@
 
                     position = mkOption { type = types.str; default = "auto"; };
                     scaling = mkOption { type = types.float; default = 1.0; };
+                    transform = mkOption { type = types.enum [ 0 1 2 3 4 5 6 7 ]; default = 0; };
 
                     vrr = mkOption { type = types.enum [ 0 1 2 3 ]; example = "0(off), 1(on), 2(fullscreen), 3(fullscreen with video or game attributes)"; default = 0; };
 
@@ -29,6 +30,7 @@
                     sdrsaturation = mkOption { type = types.float; default = 1.0; };
                 };
             });
+
             default = { "" = { workspaces = 0; }; };
         };
             

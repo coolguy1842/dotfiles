@@ -1,6 +1,14 @@
 { lib, config, pkgs, username, ... }: {
-    services.sound.pipewire.enable = true;
+    services = {
+        bluetooth.enable = true;
+        bluetooth.blueman.enable = true;
+
+        sound.pipewire.enable = true;
+    };
+
     media.plex.htpc.enable = true;
+
+    games.steam.remote-play.enable = true;
 
     display = {
         hyprland = {
@@ -10,10 +18,13 @@
             primaryMonitor = "HDMI-A-1";
             monitors = {
                 HDMI-A-1 = {
-                    workspaces = 3;
+                    workspaces = 4;
+    
                     resolution = "2560x1440";
                     refreshRate = 100;
+                    
                     position = "0x0";
+                    transform = 2;
 
                     vrr = 1;
                     
