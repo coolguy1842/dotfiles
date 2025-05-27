@@ -9,6 +9,7 @@
 
     boot = {
         kernelPackages = pkgs.linuxPackages_latest;
+        initrd.kernelModules = [ "amdgpu" ];
 
         loader = {
             systemd-boot.enable = true;
@@ -20,7 +21,7 @@
         networkmanager.enable = true;
         
         firewall = {
-            enable = true;
+            enable = false;
             
             allowedTCPPorts = [];
             allowedUDPPorts = [];
@@ -32,6 +33,8 @@
             enable = true;
             wayland.enable = true;
         };
+
+        xserver.videoDrivers = [ "amd" ];
     };
 
     users.defaultUserShell = pkgs.bash;    

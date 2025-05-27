@@ -7,6 +7,8 @@
 
         libvirt.enable = true;
         waveeffect.enable = true;
+
+        zerotierone.enable = true;
     };
 
     display = {

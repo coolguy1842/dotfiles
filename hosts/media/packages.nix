@@ -1,7 +1,7 @@
 { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
         librewolf
-        chiaki
+        chiaki-ng
         vscode
     ];
 }

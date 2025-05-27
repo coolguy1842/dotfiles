@@ -3,6 +3,10 @@
     hugepage_handler = pkgs.writeShellScript "hugepage_handler.sh" ''
         xml_file="/var/lib/libvirt/qemu/$1.xml"
         
+        function has_hugepages() {
+            echo $(grep -c "<hugepages/>" $xml_file)
+        }
+
         function extract_number() {
             local xml_file=$1
             local number=$(grep -oPm1 "(?<=<memory unit='KiB'>)[^<]+" $xml_file)
@@ -40,11 +44,17 @@
         
         case $2 in
         prepare)
-            number=$(extract_number $xml_file)
-            prepare_pages $number
+            if [[ $(has_hugepages) -gt 0 ]]; then
+                number=$(extract_number $xml_file)
+                prepare_pages $number
+            fi
+
             ;;
         release)
-            release_pages
+            if [[ $(has_hugepages) -gt 0 ]]; then
+                release_pages
+            fi
+
             ;;
         esac
     '';
