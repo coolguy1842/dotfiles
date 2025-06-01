@@ -87,6 +87,8 @@ in {
         kdePackages.ark
         kdePackages.dolphin
         inputs.zen-browser.packages."${system}".default
+
+        (GPUOffloadApp openscad "openscad")
     ] ++
     # games
     [

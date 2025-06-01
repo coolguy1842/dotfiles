@@ -12,5 +12,5 @@
     ++ (if cfg.display.ags.enable then [ ./ags.nix ] else [])
     ++ (if cfg.display.hyprland.enable then [ ./hyprland ] else []);
 
-    home.stateVersion = "24.11";
+    home.stateVersion = "25.05";
 }

@@ -1,7 +1,6 @@
 { lib, config, inputs, pkgs, username, ... }: {
     imports = [
         ./config.nix
-        ./packages.nix
     ];
 
     boot = {

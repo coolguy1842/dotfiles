@@ -9,6 +9,14 @@
         waveeffect.enable = true;
 
         zerotierone.enable = true;
+
+        sunshine = {
+            enable = true;
+            
+            capSysAdmin = true;
+            openFirewall = true;
+            autoStart = true;
+        };
     };
 
     display = {
@@ -75,5 +83,5 @@
         VK_ICD_FILENAMES = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json:${pkgs.mesa}/share/vulkan/icd.d/intel_icd.x86_64.json";
     };
 
-    system.stateVersion = "24.11";
+    system.stateVersion = "25.05";
 }
