@@ -18,7 +18,7 @@
             primaryMonitor = "HDMI-A-1";
             monitors = {
                 HDMI-A-1 = {
-                    workspaces = 4;
+                    workspaces = 5;
     
                     resolution = "2560x1440";
                     refreshRate = 100;
