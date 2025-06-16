@@ -22,7 +22,7 @@
                 onCalendar = "weekly";
             };
             
-            uninstallUnmanaged = true;
+            uninstallUnmanaged = false;
         };
 
         openssh = {
@@ -56,6 +56,10 @@
             allowedUDPPorts = [];
         };
     };
+
+    environment.systemPackages = with pkgs; [
+        firefox
+    ];
 
     systemd.network.wait-online.enable = true;
     boot.kernelModules = [ "uinput" ];

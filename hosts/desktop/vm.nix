@@ -23,6 +23,7 @@
         
             TRIES=0
             while (( $ALLOC_PAGES != $HUGEPAGES && $TRIES < 1000 )) do
+                echo 3 > /proc/sys/vm/drop_caches
                 echo 1 > /proc/sys/vm/compact_memory
                 ## defrag ram
                 echo $HUGEPAGES > /proc/sys/vm/nr_hugepages

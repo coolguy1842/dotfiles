@@ -34,7 +34,7 @@ in {
                 onCalendar = "weekly";
             };
             
-            uninstallUnmanaged = true;
+            uninstallUnmanaged = false;
         };
     };
 
