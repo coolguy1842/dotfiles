@@ -7,7 +7,6 @@
             ln -sf "/dev/dri/by-path/$path" $outdir/card$i
             i=$(expr $i + 1)
         done
-
     '';
     
     wayland.windowManager.hyprland.settings.env = ( if cfg.display.hyprland.drmDevices != [] then [
@@ -19,8 +18,6 @@
     ] else [] );
 
     wayland.windowManager.hyprland.settings.render = {
-        explicit_sync = 1;
-        explicit_sync_kms = 1;
         direct_scanout = false;
     };
 }

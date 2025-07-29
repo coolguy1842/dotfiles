@@ -1,5 +1,5 @@
 { lib, cfg, ... }: let
-    shaderPath = ".config/shaders";
+    shaderPath = ".config/hypr/shaders";
 in {
     home.file."${shaderPath}" = {
         source = ./shaders;

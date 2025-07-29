@@ -11,6 +11,7 @@
             efi.canTouchEfiVariables = true;
         };
 
+        kernelPackages = pkgs.linuxPackages_latest;
         kernelParams = [ "quiet" ];
         plymouth.enable = true;
     };

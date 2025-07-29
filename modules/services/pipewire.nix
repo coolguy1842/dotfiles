@@ -1,7 +1,7 @@
 { lib, config, pkgs, ... }: {
-    config = lib.mkIf config.services.sound.pipewire.enable {
-        security.rtkit.enable = config.services.sound.pipewire.rtkit.enable;
-        services.pipewire = with config.services.sound; {
+    config = with config.services.sound; lib.mkIf pipewire.enable {
+        security.rtkit.enable = pipewire.rtkit.enable;
+        services.pipewire = {
             enable = true;
             
             alsa.enable = pipewire.alsa.enable;

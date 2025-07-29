@@ -48,6 +48,6 @@
         drmDevices = mkOption { type = lib.types.listOf lib.types.str; default = []; };
 
         primaryMonitor = mkOption { type = lib.types.str; };
-        activeShader = mkOption { type = lib.types.str; default = "vibrance"; };
+        activeShader = mkOption { type = lib.types.str; default = "screen-vibrance"; };
     };
 }

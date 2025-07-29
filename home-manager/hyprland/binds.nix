@@ -3,7 +3,7 @@
 in {
     wayland.windowManager.hyprland.settings."$menu" = "printf \"app_launcher\" | socat - UNIX-CONNECT:/tmp/coolguy/ags/socket";
     wayland.windowManager.hyprland.settings."$picker" = "hyprpicker";
-    wayland.windowManager.hyprland.settings."$screenshot" = "hyprshade off; wayfreeze & PID=$!; sleep .1; grim -g \"$(slurp)\" - | wl-copy; kill $PID; hyprshade on vibrance";
+    wayland.windowManager.hyprland.settings."$screenshot" = "hyprshade off; wayfreeze & PID=$!; sleep .1; grim -g \"$(slurp)\" - | wl-copy; kill $PID; hyprshade on screen-vibrance";
 
     wayland.windowManager.hyprland.settings.binds = {
         scroll_event_delay = 0;

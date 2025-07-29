@@ -1,5 +1,7 @@
-{ config, username, ... }: {
+{ lib, config, username, ... }: {
     networking.hostName = "nixos-${username}";
+
+    hardware.enableRedistributableFirmware = lib.mkDefault true;
 
     time.timeZone = "Australia/Brisbane";
     i18n.defaultLocale = config.input.locale;

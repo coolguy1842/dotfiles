@@ -8,11 +8,6 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        zen-browser = {
-            url = "github:0xc000022070/zen-browser-flake";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-
         ags = {
             url = "github:coolguy1842/agsv1/v1";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -20,6 +15,7 @@
 
         nix-flatpak.url = "github:gmodena/nix-flatpak";
         waveeffect.url = "github:coolguy1842/waveeffect";
+        capturecardrelay.url = "github:coolguy1842/CaptureCardRelay";
     };
 
     outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: let 
@@ -37,6 +33,8 @@
                 }
                 { nixpkgs.hostPlatform = "x86_64-linux"; }
                 { nixpkgs.config.allowUnfree = true; }
+                # TODO: allow for agsv1(not ideal)
+                { nixpkgs.config.permittedInsecurePackages = [ "libsoup-2.74.3" ]; }
             ];
 
             specialArgs = { inherit inputs username; };

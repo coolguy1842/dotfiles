@@ -3,7 +3,22 @@
         (lib.mkIf config.games.steam.enable {
             programs.steam = {
                 enable = true;
-                package = with pkgs; steam.override { extraPkgs = pkgs: [attr]; };
+                package = with pkgs; steam.override {
+                    extraPkgs = pkgs: [
+                        xorg.libXcursor
+                        xorg.libXi
+                        xorg.libXinerama
+                        xorg.libXScrnSaver
+
+                        libpng
+                        libpulseaudio
+                        libvorbis
+                        libkrb5
+                        
+                        stdenv.cc.cc.lib
+                        keyutils
+                    ];
+                };
             };
 
             environment.systemPackages = with pkgs; [

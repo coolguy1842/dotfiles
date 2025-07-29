@@ -1,4 +1,4 @@
-{ pkgs, username, ... }: let 
+{ config, pkgs, username, ... }: let 
     # from https://github.com/WJKPK/nixation/blob/main/nixos/perun/virt-manager.nix
     hugepage_handler = pkgs.writeShellScript "hugepage_handler.sh" ''
         xml_file="/var/lib/libvirt/qemu/$1.xml"
@@ -147,7 +147,7 @@ in {
         patchedLG
     ];
 
-    boot.extraModulePackages = [ pkgs.linuxPackages_latest.kvmfr ];
+    boot.extraModulePackages = [ config.boot.kernelPackages.kvmfr ];
     boot.kernelModules = [
         "kvmfr"
     ];

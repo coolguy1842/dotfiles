@@ -3,7 +3,15 @@
         bluetooth.enable = true;
         bluetooth.blueman.enable = true;
         
-        sound.pipewire.enable = true;
+        sound.pipewire = {
+            enable = true;
+
+            rtkit.enable = true;
+            alsa.enable = true;
+            alsa.support32Bit = true;
+            pulse.enable = true;
+            jack.enable = true;
+        };
 
         libvirt.enable = true;
         waveeffect.enable = true;
@@ -42,13 +50,14 @@
                 music.keybind = "S";
                 email.keybind = "E";
                 windows.keybind = "G";
+                capturecard.keybind = "C";
             };
         };
     };
 
     applications = {
         defaults = {
-            web-browser  = { program = "zen";     desktopFile = "zen-beta.desktop"; };
+            web-browser  = { program = "firefox";     desktopFile = "firefox.desktop"; };
             file-manager = { program = "dolphin"; desktopFile = "dolphin.desktop"; };
             terminal     = { program = "kitty";   desktopFile = "kitty.desktop"; };
         };
@@ -81,7 +90,45 @@
     environment.sessionVariables = {
         __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json";
         VK_ICD_FILENAMES = lib.mkDefault "${pkgs.mesa}/share/vulkan/icd.d/radeon_icd.x86_64.json:${pkgs.mesa}/share/vulkan/icd.d/intel_icd.x86_64.json";
+        SDL_AUDIODRIVER = "pulse";
     };
+
+    virtualisation.waydroid.enable = true;
+
+    programs.nix-ld.enable = true;
+    programs.sniffnet.enable = true;
+
+    # from https://github.com/NixOS/nixpkgs/issues/282680#issuecomment-1905797369
+    # "minimum" amount of libraries needed for most games to run without steam-run
+    programs.nix-ld.libraries = with pkgs; [
+        # common requirement for several games
+        stdenv.cc.cc.lib
+
+        # from https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/games/steam/fhsenv.nix#L72-L79
+        xorg.libXcomposite
+        xorg.libXtst
+        xorg.libXrandr
+        xorg.libXext
+        xorg.libX11
+        xorg.libXfixes
+        libGL
+        libva
+
+        # from https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/games/steam/fhsenv.nix#L124-L136
+        fontconfig
+        freetype
+        xorg.libXt
+        xorg.libXmu
+        libogg
+        libvorbis
+        SDL
+        SDL2_image
+        glew110
+        libdrm
+        libidn
+        tbb
+        zlib
+    ];
 
     system.stateVersion = "25.05";
 }
