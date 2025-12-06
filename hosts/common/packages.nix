@@ -15,8 +15,7 @@
         pciutils
         usbutils
 
-        libsForQt5.qt5ct
-        qt6ct
+        qt6Packages.qt6ct
         adwaita-qt
         adwaita-icon-theme
     ];

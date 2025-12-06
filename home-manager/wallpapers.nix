@@ -5,7 +5,7 @@ in {
         swww
         waypaper
         (writeShellScriptBin "cycle-wallpaper" ''
-            export SWWW_TRANSITION_FPS=165
+            export SWWW_TRANSITION_FPS=60
             export SWWW_TRANSITION_STEP=90
             export SWWW_TRANSITION=wipe
             export SWWW_TRANSITION_ANGLE=45

@@ -16,15 +16,20 @@
         function prepare_pages() { 
             # Calculate number of hugepages to allocate from memory (in MB)
             HUGEPAGES="$(($1/$(($(grep Hugepagesize /proc/meminfo | ${pkgs.gawk}/bin/gawk '{print $2}')/1024))))"
-        
+
+            sync
+            echo 3 > /proc/sys/vm/drop_caches
+            sync
+            echo 1 > /proc/sys/vm/compact_memory
+
             echo "Allocating hugepages..."
             echo $HUGEPAGES > /proc/sys/vm/nr_hugepages
             ALLOC_PAGES=$(cat /proc/sys/vm/nr_hugepages)
         
             TRIES=0
             while (( $ALLOC_PAGES != $HUGEPAGES && $TRIES < 1000 )) do
-                echo 3 > /proc/sys/vm/drop_caches
                 echo 1 > /proc/sys/vm/compact_memory
+
                 ## defrag ram
                 echo $HUGEPAGES > /proc/sys/vm/nr_hugepages
                 ALLOC_PAGES=$(cat /proc/sys/vm/nr_hugepages)
@@ -72,7 +77,7 @@
             
             sleep 1
 
-            modprobe -r nvidia_drm
+            rmmod --force nvidia_drm
             modprobe -r nvidia_modeset
             modprobe -r nvidia_uvm
             modprobe -r nvidia

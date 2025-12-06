@@ -50,6 +50,7 @@
 
     networking = {
         networkmanager.enable = true;
+
         firewall = {
             enable = true;
             
@@ -57,10 +58,6 @@
             allowedUDPPorts = [];
         };
     };
-
-    environment.systemPackages = with pkgs; [
-        firefox
-    ];
 
     systemd.network.wait-online.enable = true;
     boot.kernelModules = [ "uinput" ];

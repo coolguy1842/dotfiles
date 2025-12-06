@@ -17,6 +17,8 @@
                         
                         stdenv.cc.cc.lib
                         keyutils
+
+                        gamemode
                     ];
                 };
             };

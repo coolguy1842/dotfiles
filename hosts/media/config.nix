@@ -55,5 +55,14 @@
         };
     };
     
+    hardware.graphics = {
+        enable = true;
+        extraPackages = with pkgs; [
+            libva
+            libvdpau-va-gl
+            intel-media-driver
+        ];
+    };
+     
     system.stateVersion = "25.05";
 }

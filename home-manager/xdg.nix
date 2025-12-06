@@ -1,5 +1,17 @@
 { lib, inputs, cfg, pkgs, ... }: {
-    xdg.portal.enable = lib.mkForce false;
+    xdg.portal = {
+        enable = true;
+        extraPortals = with pkgs; [
+            kdePackages.xdg-desktop-portal-kde
+            xdg-desktop-portal-hyprland
+        ];
+
+        config = {
+            common = {
+                "org.freedesktop.impl.portal.FileChooser" = "kde";
+            };
+        };
+    };
 
     xdg.mimeApps = {
         enable = true;

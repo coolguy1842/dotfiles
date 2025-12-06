@@ -16,6 +16,7 @@
         LC_PAPER = config.input.locale;
         LC_TELEPHONE = config.input.locale;
         LC_TIME = config.input.locale;
+        LC_ALL = config.input.locale;
     };
 
     services.xserver = {
@@ -24,6 +25,10 @@
             variant = "";
         };
     };
+
+    nix.extraOptions = ''
+        download-speed = 1000
+    '';
 
     qt = {
         enable = true;

@@ -12,11 +12,14 @@
         ];
 
         windowrule = [
-            "fullscreen, initialClass:^(CaptureCardRelay)$"
+            "fullscreen, initialTitle:^(CaptureCardRelay)$"
             "noscreenshare, initialClass:^(Proton Pass)$"
             "noscreenshare, initialClass:^(io.ente.auth)$"
             "noscreenshare, initialClass:^(electron-mail)$"
             "noscreenshare, initialClass:^(Element)$"
+            "noscreenshare, initialClass:^(Signal)$"
+            "noscreenshare, initialClass:^(librewolf)$"
+            "noscreenshare, initialTitle:^(Among Us)$"
         ];
 
         debug = {

@@ -2,10 +2,12 @@
     programs.git = {
         enable = true;
         
-        userName = "coolguy1842";
-        userEmail = "github.com.freely529@passfwd.com";
-
-        extraConfig = {
+        settings = {
+            user = {
+                name = "coolguy1842";
+                email = "github.com.freely529@passfwd.com";
+            };
+            
             init.defaultBranch = "main";
             
             color = {

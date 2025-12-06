@@ -8,14 +8,14 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        ags = {
-            url = "github:coolguy1842/agsv1/v1";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-
+        ags.url = "github:coolguy1842/agsv1/v1";
         nix-flatpak.url = "github:gmodena/nix-flatpak";
         waveeffect.url = "github:coolguy1842/waveeffect";
-        capturecardrelay.url = "github:coolguy1842/CaptureCardRelay";
+
+        capturecardrelay = {
+            url = "github:coolguy1842/CaptureCardRelay";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
     outputs = { nixpkgs, nix-flatpak, home-manager, ... } @ inputs: let 

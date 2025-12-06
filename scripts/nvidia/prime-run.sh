@@ -1,11 +1,10 @@
-LOG_DIR=~/.cache/prime-run/
+LOG_DIR=$HOME/.cache/prime-run/
 if [ ! -d $LOG_DIR ]; then
     mkdir $LOG_DIR
 fi
 
 LOG_FILE=$LOG_DIR/prime-run.log
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-USE_GPU=$(prime-run-base)
+USE_GPU=$(prime-run-base || echo "iGPU")
 
 printf "" > $LOG_FILE
 
@@ -13,7 +12,7 @@ ENV_VARS=""
 
 case $USE_GPU in
 dGPU)
-    VK_LOADER_DRIVERS_DISABLE=""
+    export VK_LOADER_DRIVERS_DISABLE=""
 
     export __VK_LAYER_NV_optimus=NVIDIA_only
     export __NV_PRIME_RENDER_OFFLOAD=1
@@ -39,10 +38,6 @@ dGPU)
     export VKD3D_FEATURE_LEVEL=12_2
     export VKD3D_FEATURE_LEVEL=6_6
 
-    export OBS_VKCAPTURE=1
-
-    export VKD3D_DISABLE_EXTENSIONS=VK_KHR_present_wait
-
     ;;
 iGPU) ;;& *)
     dunstify -u crit "Prime Run" "dGPU is unavailable, running with IGPU." --timeout=5000
@@ -51,9 +46,6 @@ iGPU) ;;& *)
     ;;
 esac
 
-run_game() {
-    exec "$@"
-}
-
+echo -e "env:\n$(env)\n\n" >> $LOG_FILE
 echo -e "running on $USE_GPU with command:\n$@" >> $LOG_FILE
-exec "$@" |& tee $LOG_FILE
+gamemoderun "$@" |& tee -a $LOG_FILE

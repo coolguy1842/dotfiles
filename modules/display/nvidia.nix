@@ -39,6 +39,7 @@
                 (writeShellScriptBin "check-gpu-usage" (lib.readFile ../../scripts/nvidia/check-gpu-usage.sh))
                 (writeShellScriptBin "prime-run-base"  (lib.readFile ../../scripts/nvidia/prime-run-base.sh))
                 (writeShellScriptBin "prime-run"       (lib.replaceStrings [ "$(nvidiaPath)" ] [ "${config.boot.kernelPackages.nvidiaPackages.latest}" ] (lib.readFile ../../scripts/nvidia/prime-run.sh)))
+                (writeShellScriptBin "prime-run-gamescope"       (lib.replaceStrings [ "$(nvidiaPath)" ] [ "${config.boot.kernelPackages.nvidiaPackages.latest}" ] (lib.readFile ../../scripts/nvidia/prime-run-gamescope.sh)))
             ];
 
             environment.sessionVariables = {

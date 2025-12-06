@@ -36,11 +36,17 @@ in {
             
             uninstallUnmanaged = false;
         };
+        
+        angrr = {
+            enable = true;
+            period = "2weeks";
+        };
     };
 
     home-manager.backupFileExtension = "backup";
     
     users.groups.plugdev = {};
+    users.groups.docker = {};
     services.udev.packages = [ plugdevRules ];
 
     security.polkit.extraConfig = ''

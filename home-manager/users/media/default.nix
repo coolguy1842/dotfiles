@@ -3,8 +3,6 @@
         ../../default.nix
         ./workspaces.nix
         ./windowRules.nix
-        ./execs.nix
-        ./binds.nix
     ];
 
     wayland.windowManager.hyprland.settings = {

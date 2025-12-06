@@ -19,102 +19,56 @@
      );
 
     GPUOffloadApp = pkg: desktopName: patchDesktop pkg desktopName "^Exec=" "Exec=prime-run ";
-    
-    citraholdUI = let
-        name = "Citrahold UI";
-        pname = "citraholdUI";
-        version = "1.1.0";
 
-        desktopFile = pkgs.makeDesktopItem {
-            name = "${pname}";
-            desktopName = "${name}";
+    citron-emu = pkgs.stdenv.mkDerivation rec {
+        pname = "citron-emu";
+        version = "0.6.1";
 
-            exec = "${pname}";
-            icon = "${pname}";
-
-            categories = [ "Utility" ];
-        };   
-    in pkgs.stdenv.mkDerivation {
-        inherit pname version;
-
-        src = pkgs.fetchFromGitHub {
-            owner = "regimensocial";
-            repo = "citraholdUI";
-
-            rev = "v1.1.0";
-            sha256 = "sha256-CWWw9T51LpusauyfURouU/Tss8Fi1i5hk5bGragyA2Q=";
+        src = pkgs.fetchurl {
+            url = "https://github.com/pkgforge-dev/Citron-AppImage/releases/download/v${version}/Citron-v${version}-anylinux-x86_64.AppImage";
+            hash = "sha256-MDrM4n6s0sPVl0d9pIZ2XLKXYw0AX+5znflAwquZ6o0=";
         };
 
-        nativeBuildInputs = [ pkgs.qt6.full ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
 
-        configurePhase = "qmake";
-        buildPhase = "make";
-        installPhase = ''
-            mkdir -p $out/{bin,share/{applications,icons/hicolor/scalable/apps}}
-            
-            cp ./Citrahold $out/bin/${pname}
-            cp $src/icon.png $out/share/icons/hicolor/scalable/apps/${pname}.png
-
-            cp ${desktopFile}/share/applications/${pname}.desktop $out/share/applications/${pname}.desktop
+        # need to copy so can make it executable
+        unpackPhase = ''
+            cp "$src" "${pname}.AppImage"
         '';
-    };
-
-    WiiUDownloader = let
-        name = "WiiU Downloader";
-        pname = "WiiUDownloader";
-        version = "2.65";
-
-        src = pkgs.fetchFromGitHub {
-            owner = "Xpl0itU";
-            repo = "WiiUDownloader";
-            rev = "v${version}";
-            sha256 = "sha256-shzwvWOIYG6B5yDBbouxY9ThvIHM8/yEBzHPYxyYYqg=";
-        };
-        
-        db = pkgs.fetchurl {
-            url = "https://napi.v10lator.de/db?t=go";
-            sha256 = "sha256-+sb1tCQgre95aElNy3+UrYy5G/z3c9VGT1Do2ID0CB0=";
-
-            name = "db.go";
-            curlOpts = "--user-agent NUSspliBuilder/2.1";
-        }; 
-
-        srcWithDb = pkgs.runCommand "WiiUDownloader-src" { inherit db; } ''
-            mkdir -p $out
-            cp -r ${src}/* $out/
-            cp ${db} $out/db.go
-        '';
-
-        desktopFile = pkgs.makeDesktopItem {
-            name = "${pname}";
-            desktopName = "${name}";
-
-            exec = "${pname}";
-            icon = "${pname}";
-
-            categories = [ "Utility" ];
-        };
-    in pkgs.buildGoModule {
-        inherit pname name version;
-
-        src = srcWithDb;
-        vendorHash = "sha256-Cqk8lcj1Oh5MCZs5FvNKnq+QF924B8ZoGaDg7jvgT/U=";
-
-        nativeBuildInputs = with pkgs; [ pkg-config xorg.libX11 zlib ];
-        buildInputs = with pkgs; [ glib gtk3 ];
 
         buildPhase = ''
-            go build ./cmd/WiiUDownloader
+            chmod +x ${pname}.AppImage
+            ./${pname}.AppImage --appimage-extract
         '';
 
         installPhase = ''
-            mkdir -p $out/{bin,share/{applications,icons/hicolor/scalable/apps}}
-            cp ./WiiUDownloader $out/bin/${pname}
+            mkdir -p $out/appimage-output
+            cp -a squashfs-root/. $out/appimage-output/
 
-            cp $src/data/WiiUDownloader.png $out/share/icons/hicolor/scalable/apps/${pname}.png
-            cp ${desktopFile}/share/applications/${pname}.desktop $out/share/applications/${pname}.desktop
+            mkdir -p $out/bin
+            ln -s $out/appimage-output/AppRun $out/bin/citron-emu
+
+            mkdir -p $out/share/applications
+            cp squashfs-root/org.citron_emu.citron.desktop $out/share/applications/citron-emu.desktop
+
+            substituteInPlace $out/share/applications/citron-emu.desktop \
+                --replace 'Exec=citron' "Exec=$out/bin/citron-emu" \
+                --replace 'TryExec=citron' "Exec=$out/bin/citron-emu" \
+                --replace 'Icon=org.citron_emu.citron' "Icon=citron-emu"
+
+            mkdir -p $out/share/icons/hicolor/scalable/apps
+            cp squashfs-root/org.citron_emu.citron.svg $out/share/icons/hicolor/scalable/apps/citron-emu.svg
         '';
     };
+
+    mangohudWrapped = pkgs.mangohud.overrideAttrs (old: {
+        nativeBuildInputs = old.nativeBuildInputs or [] ++ [ pkgs.makeWrapper ];
+
+        postFixup = ''
+            wrapProgram $out/bin/mangohud \
+                --set LD_LIBRARY_PATH "/run/opengl-driver/lib:${old.LD_LIBRARY_PATH or ""}" 
+        '';
+    });
 in {
     # TODO: add modules for these
     environment.systemPackages = with pkgs; [
@@ -154,36 +108,42 @@ in {
         networkmanager-openvpn
         motrix
         obs-studio
+        bottles
+        fuse
+        javaPackages.compiler.openjdk25
 
         (GPUOffloadApp openscad "openscad")
     ] ++
     # games
     [
-        mangohud
+        mangohudWrapped
         
         vulkan-loader
         vulkan-tools
         libdecor
+        winboat
 
         heroic
         prismlauncher
         (GPUOffloadApp superTuxKart "supertuxkart")
         (GPUOffloadApp lunar-client "lunarclient")
+        (GPUOffloadApp osu-lazer "osu")
+
         mesen
         (GPUOffloadApp snes9x-gtk "snes9x-gtk")
         (GPUOffloadApp ares "ares")
+#        (GPUOffloadApp duckstation "org.duckstation.DuckStation")
         (GPUOffloadApp mgba "io.mgba.mGBA")
         (GPUOffloadApp melonDS "net.kuribo64.melonDS")
         (GPUOffloadApp azahar "org.azahar_emu.Azahar")
         (GPUOffloadApp dolphin-emu "dolphin-emu")
         (GPUOffloadApp cemu "info.cemu.Cemu")
-        (GPUOffloadApp ryujinx "Ryujinx")
+        (GPUOffloadApp ryubing "Ryujinx")
+#        (GPUOffloadApp citron-emu "citron-emu")
         (GPUOffloadApp chiaki-ng "chiaking")
-        citraholdUI
-
-        WiiUDownloader
     ];
 
+    programs.gamemode.enable = true;
     programs.gamescope = {
         enable = true;
         args = [
@@ -192,7 +152,20 @@ in {
             "-r 165"
         ];
 
-        capSysNice = true;
+        capSysNice = false;
+    };
+
+
+    services.ananicy = with pkgs; {
+        enable = true;
+        package = ananicy-cpp;
+        rulesProvider = ananicy-cpp;
+        extraRules = [
+            {
+                "name" = "gamescope";
+                "nice" = -20;
+            }
+        ];
     };
 
     services.flatpak.packages = [ "io.github.everestapi.Olympus" ];
